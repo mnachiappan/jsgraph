@@ -52,11 +52,21 @@
 			]
 
 		}
+
+		console.log($scope.lineChartData);
+
 		
 		$scope.ctx = document.getElementById("canvas").getContext("2d");
-		window.myLine = new Chart($scope.ctx).Line($scope.lineChartData,
+		var chrt = new Chart($scope.ctx);
+		window.myLine = chrt.Line($scope.lineChartData,
 			{responsive: true}
 		);
+
+		console.log(chrt.removeData);
+		console.log(window.myLine.removeData());
+		console.log(chrt);
+		console.log(window.myLine);
+		console.log($scope.lineChartData);
 
 	
 		}]);

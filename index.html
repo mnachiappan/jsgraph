@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div ng-app="graphApp">
+    <div ng-controller="GraphController">
+        <table>
+            <tr>
+               <th ng-repeat="dataLabel in dataLabels">
+                   {{dataLabel}}
+               </th>
+            </tr>
+            <tr ng-repeat="data in dataSets">
+                <td ng-repeat="elem in data['data']">
+                    <input ng-model="elem.val" />
+                </td>
+            </tr>
+        </table>
+        <button ng-click="newDataRow()">
+            Add row
+        </button>
+        {{dataSets[0]["data"][0]["val"]}}
+    </div>
+</div>
+
+</body>
+
+<script src="js/angular.js"></script>
+<script src="js/script.js"></script>
+</html>
