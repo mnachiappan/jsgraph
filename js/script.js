@@ -77,11 +77,18 @@ graphApp.controller('GraphController', ['$scope', 'DataFactory', function ($scop
         window.myLine.update();
     });
 
+    $scope.updateData = (function(dataSetIndex, pointIndex){
+       console.log("Data set: " + dataSetIndex + ", point: " + pointIndex);
+    });
+
     // should remove
 
      var randomScalingFactor = function () {
         return Math.round(Math.random() * 100)
     };
+
+
+
     var lineChartData = {
         labels: ["January", "February", "March", "April", "May", "June", "July"],
         datasets: [
@@ -113,7 +120,20 @@ graphApp.controller('GraphController', ['$scope', 'DataFactory', function ($scop
         {responsive: true}
     );
 
-
+    var x  ={
+        label: "My Second dataset",
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
+        data: [283, 483, 40, 19, 86, 27, 90]
+    };
+    window.myLine.datasets[0].points[2].value = 500;
+    window.myLine.datasets[0].fillColor = "rgba(209, 39, 136, 1)";
+    window.myLine.update();
+    console.log(window.myLine);
     // should remove
 
 }]);

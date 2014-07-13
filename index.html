@@ -16,7 +16,7 @@
             </tr>
             <tr ng-repeat="data in dataSets">
                 <td ng-repeat="elem in data['data']">
-                    <input ng-model="elem.val" />
+                    <input ng-model="elem.val" ng-change="updateData($parent.$index, $index)" />
                 </td>
             </tr>
         </table>
