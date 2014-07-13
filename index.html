@@ -11,7 +11,7 @@
         <table>
             <tr>
                <th ng-repeat="dataLabel in dataLabels">
-                   {{dataLabel}}
+                   <input ng-model="dataLabel['label']" />
                </th>
             </tr>
             <tr ng-repeat="data in dataSets">
@@ -23,12 +23,22 @@
         <button ng-click="newDataRow()">
             Add row
         </button>
+        <button ng-click="addLabel('Newjklfs', 2)">
+            Add label
+        </button>
+        <button ng-click="pushData()">
+            Push data
+        </button>
         {{dataSets[0]["data"][0]["val"]}}
+        {{dataLabels[0]['label']}}
+
+        <canvas id="canvas" height="450" width="600"></canvas>
     </div>
 </div>
 
 </body>
 
+<script src="Chart.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/script.js"></script>
 </html>
