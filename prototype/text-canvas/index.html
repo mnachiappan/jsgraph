@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head> 
+  <body ng-app="app">
+    <canvas id="myCanvas" width="578" height="200" style="border:1px solid #000000";></canvas>
+    <div ng-controller="TextController" ng-cloak>
+      <form>
+        <input ng-model="text" />
+      </form>
+      {{text}}
+      <canvas id="newCanvas" width = "578" height="200" style="border:1px solid #000000;"></canvas>
+    </div>
+
+    
+
+
+    <canvas id="line" width="578" height="200" style="border:1px solid #000000;"></canvas>
+
+    <script src="angular.js"></script>
+    <script>
+      var app = angular.module('app', []);
+      app.factory('ctext', function(){      
+        var props = {};
+        props["text"] = "text";
+        var canvas2 = document.getElementById('newCanvas');
+        var context = canvas2.getContext('2d');
+        context.font = '40pt Calibri';
+        context.fillStyle = 'blue';
+        context.fillText(props.text, 200, 200);
+
+        props["update_text"] = (function(newText, oldText){
+          console.log("factory function executing with" + newText);
+          context.clearRect(0, 0, canvas2.width, canvas2.height);
+          context.fillText(newText, 200, 200);
+        });
+
+        
+        return props;
+      });
+
+      app.controller('TextController', ['$scope', 'ctext', function($scope, ctext){
+          $scope.props = ctext;
+          $scope.text = "text";
+
+          $scope.$watch('text', function(newValue, oldValue){
+            console.log('updated text' + newValue);
+            $scope.props.text = newValue;
+            $scope.props.update_text(newValue, oldValue);
+          });
+      }]);
+
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
+
+      // do cool things with the context
+      context.font = '40pt Calibri';
+      context.fillStyle = 'blue';
+      context.fillText('Hello World!', 150, 100);
+
+      var line = document.getElementById('line');
+      var ctx = line.getContext('2d');
+      ctx.beginPath();
+      ctx.moveTo(100, 150);
+      ctx.lineTo(450, 50);
+      ctx.stroke();
+    </script>
+  </body>
+</html>  
