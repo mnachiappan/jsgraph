@@ -2690,8 +2690,6 @@
 
 				if (this.options.datasetFill){
 					//Round off the line by going to the base of the chart, back to the start, then fill.
-                    //console.log("In Chart.js, " + "line 2693, " + "dataset.points = " + dataset.points);
-                    //console.log(dataset);
 					ctx.lineTo(dataset.points[dataset.points.length-1].x, this.scale.endPoint);
 					ctx.lineTo(this.scale.calculateX(0), this.scale.endPoint);
 					ctx.fillStyle = dataset.fillColor;
@@ -3304,4 +3302,3 @@
 
 
 }).call(this);
-

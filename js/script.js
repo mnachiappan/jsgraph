@@ -4,13 +4,11 @@
 
 var graphApp = angular.module('graphApp', []);
 
-graphApp.factory('DataFactory', function () {
+graphApp.factory('DataFactoryMany', function () {
     var dataFactory = {};
 
     var dataLabels = [
-        {"label": "January"},
-        {"label": "February"},
-        {"label": "March"}
+        //{"label": "January"},
     ];
 
     var dataSets = [
@@ -53,13 +51,81 @@ graphApp.factory('DataFactory', function () {
     return dataFactory;
 });
 
-graphApp.controller('GraphController', ['$scope', 'DataFactory', function ($scope, DataFactory) {
+graphApp.factory('LineFactory', function () {
+    var initializeArray = (function (length, value) {
+        var result = [];
+        while (length > 0) {
+            result.push(value);
+            length--;
+        }
+        return result;
+    });
+
+    var getRandomInt = (function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    });
+
+    var randomColorSelection = (function () {
+        var color = {};
+        var randColor = getRandomInt(10, 240);
+        randColor = randColor.toString();
+        color["fillColor"] = "rgba(" + randColor + "," + randColor + "," + randColor + "," + "0.2)";
+        color["strokeColor"] = color["pointColor"] = color["pointHighlightStroke"] = "rgba(" + randColor + "," + randColor + "," + randColor + "," + "1)";
+        color["pointStrokeColor"] = color["pointHighlightFill"] = "#fff";
+        return color;
+    });
+
+    var createData = (function (labelIndex, dataLength) {
+        var dataElement = {};
+        var color = randomColorSelection();
+        dataElement["label"] = "data" + labelIndex.toString();
+        dataElement["fillColor"] = color["fillColor"];
+        dataElement["strokeColor"] = color["strokeColor"];
+        dataElement["pointColor"] = color["pointColor"];
+        dataElement["pointStrokeColor"] = color["pointStrokeColor"];
+        dataElement["pointHighlightFill"] = color["pointHighlightFill"];
+        dataElement["pointHighlightStroke"] = color["pointHighlightStroke"];
+        dataElement["data"] = initializeArray(dataLength, labelIndex);
+        return dataElement;
+    });
+
+    var createDatasets = (function (numbLabels, numbDataSets) {
+        var datasets = [];
+        for (var i = 0; i < numbDataSets; i++) {
+            datasets.push(createData(i, numbLabels));
+        }
+        console.log(datasets)
+        return datasets;
+    });
+
+    var lineFactory = {};
+
+    lineFactory["newLine"] = (function (canvasId, numbLabels, numbDataSets) {
+        var ctx = document.getElementById(canvasId).getContext("2d");
+        var labels = initializeArray(numbLabels, "Label");
+        var datasets = createDatasets(numbLabels, numbDataSets);
+        var chartData = {
+            labels: labels,
+            datasets: datasets
+        };
+        console.log(chartData);
+        var chart = new Chart(ctx).Line(chartData, {responsive: true});
+        return chart;
+    });
+
+    return lineFactory;
+});
+
+graphApp.controller('GraphController', ['$scope', 'DataFactoryMany', 'LineFactory', function ($scope, DataFactoryMany, LineFactory) {
+    $scope.numberOfLabels = null;
+    $scope.numberOfDataSets = null;
+
     $scope.dataLabels = [];
 
     $scope.dataSets = [];
 
     $scope.newDataRow = (function () {
-        $scope.dataSets.push(DataFactory.newDataRow($scope.dataLabels.length));
+        $scope.dataSets.push(DataFactoryMany.newDataRow($scope.dataLabels.length));
     });
 
     $scope.addLabel = (function (newLabel, index) {
@@ -70,70 +136,19 @@ graphApp.controller('GraphController', ['$scope', 'DataFactory', function ($scop
         $scope.dataLabels.splice(index, 0, {"label": newLabel});
     });
 
-    $scope.pushData = (function(){
+    $scope.pushData = (function () {
         var label = $scope.dataLabels[0]["label"];
         var data = [$scope.dataSets[0]["data"][0]["val"], $scope.dataSets[1]["data"][0]["val"]];
         window.myLine.addData(data, label);
         window.myLine.update();
     });
 
-    $scope.updateData = (function(dataSetIndex, pointIndex){
-       console.log("Data set: " + dataSetIndex + ", point: " + pointIndex);
+    $scope.updateData = (function (dataSetIndex, pointIndex) {
+        console.log("Data set: " + dataSetIndex + ", point: " + pointIndex);
     });
 
-    // should remove
-
-     var randomScalingFactor = function () {
-        return Math.round(Math.random() * 100)
-    };
-
-
-
-    var lineChartData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-            {
-                label: "My First dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [65, 59, 80, 81, 56, 55, 40]
-            },
-            {
-                label: "My Second dataset",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [28, 48, 40, 19, 86, 27, 90]
-            }
-        ]
-    };
-    var ctx = document.getElementById("canvas").getContext("2d");
-    var chrt = new Chart(ctx);
-    window.myLine = chrt.Line(lineChartData,
-        {responsive: true}
-    );
-
-    var x  ={
-        label: "My Second dataset",
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,1)",
-        data: [283, 483, 40, 19, 86, 27, 90]
-    };
-    window.myLine.datasets[0].points[2].value = 500;
-    window.myLine.datasets[0].fillColor = "rgba(209, 39, 136, 1)";
-    window.myLine.update();
-    console.log(window.myLine);
-    // should remove
-
+    var chart = null;
+    $scope.createLine = (function (canvasId, numbLabels, numbDataSets){
+        chart = LineFactory.newLine(canvasId, numbLabels, numbDataSets);
+    });
 }]);

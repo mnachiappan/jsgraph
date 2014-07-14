@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -8,6 +8,18 @@
 
 <div ng-app="graphApp">
     <div ng-controller="GraphController">
+        <form>
+            Number of labels: <input type="text" ng-model="numberOfLabels" />
+            Number of data sets: <input type="text" ng-model="numberOfDataSets" />
+            <button ng-click="createLine('canvas', numberOfLabels, numberOfDataSets)" />
+                Create line
+            </button>
+        </form>
+        <div style="height: 200px; width: 200px">
+            <canvas id="canvas" height="450" width="600"></canvas>
+        </div>
+
+        <!--
         <table>
             <tr>
                <th ng-repeat="dataLabel in dataLabels">
@@ -31,8 +43,8 @@
         </button>
         {{dataSets[0]["data"][0]["val"]}}
         {{dataLabels[0]['label']}}
+        -->
 
-        <canvas id="canvas" height="450" width="600"></canvas>
     </div>
 </div>
 
