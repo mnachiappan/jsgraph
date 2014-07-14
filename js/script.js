@@ -6,11 +6,6 @@ var graphApp = angular.module('graphApp', []);
 
 graphApp.factory('DataFactoryMany', function () {
     var dataFactory = {};
-
-    var dataLabels = [
-        //{"label": "January"},
-    ];
-
     var dataSets = [
         {
             "data": [
@@ -45,8 +40,6 @@ graphApp.factory('DataFactoryMany', function () {
         return (createNewDataObj(numberOfLabels));
     });
 
-    dataFactory["dataLabels"] = dataLabels;
-    dataFactory["dataSets"] = dataSets;
 
     return dataFactory;
 });
@@ -67,7 +60,7 @@ graphApp.factory('LineFactory', function () {
 
     var randomColorSelection = (function () {
         var color = {};
-        var randColor = getRandomInt(10, 240);
+        var randColor = getRandomInt(100, 240);
         randColor = randColor.toString();
         color["fillColor"] = "rgba(" + randColor + "," + randColor + "," + randColor + "," + "0.2)";
         color["strokeColor"] = color["pointColor"] = color["pointHighlightStroke"] = "rgba(" + randColor + "," + randColor + "," + randColor + "," + "1)";
@@ -94,12 +87,11 @@ graphApp.factory('LineFactory', function () {
         for (var i = 0; i < numbDataSets; i++) {
             datasets.push(createData(i, numbLabels));
         }
-        console.log(datasets)
         return datasets;
     });
 
     var lineFactory = {};
-
+// .labels // .datasets
     lineFactory["newLine"] = (function (canvasId, numbLabels, numbDataSets) {
         var ctx = document.getElementById(canvasId).getContext("2d");
         var labels = initializeArray(numbLabels, "Label");
@@ -108,9 +100,11 @@ graphApp.factory('LineFactory', function () {
             labels: labels,
             datasets: datasets
         };
-        console.log(chartData);
         var chart = new Chart(ctx).Line(chartData, {responsive: true});
-        return chart;
+        return {
+            chart: chart,
+            chartData: chartData
+        };
     });
 
     return lineFactory;
@@ -143,12 +137,47 @@ graphApp.controller('GraphController', ['$scope', 'DataFactoryMany', 'LineFactor
         window.myLine.update();
     });
 
-    $scope.updateData = (function (dataSetIndex, pointIndex) {
-        console.log("Data set: " + dataSetIndex + ", point: " + pointIndex);
+    $scope.updateData = (function (dataSetIndex, pointIndex, newValue) {
+        if(!isNaN(newValue)){
+            chartInfo.chart.datasets[dataSetIndex].points[pointIndex].value = newValue;
+            chartInfo.chart.update();
+        }else{
+            console.log("Please enter a number.");
+        }
     });
 
-    var chart = null;
-    $scope.createLine = (function (canvasId, numbLabels, numbDataSets){
-        chart = LineFactory.newLine(canvasId, numbLabels, numbDataSets);
+
+    // input is an array of label strings
+    // output is an array of {"label": label} objects
+    var convertLabelsToLocalForm = (function (labels) {
+        var length = labels.length;
+        var labelsResult = [];
+        for (var i = 0; i < length; i++) {
+            labelsResult.push({label: labels[i]});
+        }
+        return labelsResult;
+    });
+
+    var convertDataToArray = (function (data) {
+        var resultData = [];
+        for(var i = 0; i < data.length; i++){
+            resultData.push({val: data[i]});
+        }
+        return resultData;
+    });
+
+    var convertDatasetsToArray = (function(datasets){
+       var resultSets = [];
+        for(var i =0; i<datasets.length; i++){
+            resultSets.push(convertDataToArray(datasets[i].data));
+        }
+        return resultSets;
+    });
+
+    var chartInfo = null;
+    $scope.createLine = (function (canvasId, numbLabels, numbDataSets) {
+        chartInfo = LineFactory.newLine(canvasId, numbLabels, numbDataSets);
+        $scope.dataLabels = convertLabelsToLocalForm(chartInfo.chartData.labels);
+        $scope.dataSets = convertDatasetsToArray(chartInfo.chartData.datasets);
     });
 }]);
