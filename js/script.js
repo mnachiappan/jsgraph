@@ -3,8 +3,8 @@
  */
 
 function basicChartData(){
-        var _labels = [];
-        var _datasets = [];
+        this.labels = [];
+        this.datasets = [];
         var _labelTag = "label";
         var _elemTag = "elem";
         function _fillArray(value, len) {
@@ -16,19 +16,19 @@ function basicChartData(){
         }
 
         function _createLabelElement(value){
-            var result = [];
+            var result = {};
             result[_labelTag] = value;
             return result;
         }
 
         function _createDataElement(value){
-            var result = [];
+            var result = {};
             result[_elemTag] = value;
             return result;
         }
 
         this.getLabels = function(){
-            return _labels;
+            return this.labels;
         }
 
         /*
@@ -38,16 +38,16 @@ function basicChartData(){
         INPUT
         newLabels = ["Hello", "Hi"]
         RESULT
-        _labels = [..., {"label": "Hello"}, {"label": "Hi"}]
-        _datasets [{..., "data": [...,{"elem": 0}, {"elem": 0}]}]
+        this.labels = [..., {"label": "Hello"}, {"label": "Hi"}]
+        this.datasets [{..., "data": [...,{"elem": 0}, {"elem": 0}]}]
         */
         this.addLabels = function(newLabels){
             var labelsLength = newLabels.length;
             for(var i = 0; i < labelsLength; i++){
-                _labels.push(_createLabelElement(newLabels[i]));
+                this.labels.push(_createLabelElement(newLabels[i]));
             }
-            for (var i = 0; i < _datasets.length; i++){
-                _datasets[i].data.push(_fillArray(_createDataElement(0), labelsLength));
+            for (var i = 0; i < this.datasets.length; i++){
+                this.datasets[i].data.push(_fillArray(_createDataElement(0), labelsLength));
             }
         }
 
@@ -60,14 +60,20 @@ function basicChartData(){
         // 
         
         this.setLabel = function(newLabel, location){
-            if(location >= _labels.length){
+            if(location >= this.labels.length){
                 console.log("Attempted to add new label: " + newLabel + ", at location: " + location + ".");
             }else{
-                _labels[location][_labelTag] = newLabel;
+                this.labels[location][_labelTag] = newLabel;
             }
         }
     }
 
+function lineChartData(){
+    this.labels = [];
+    this.datasets = [];
+}
+
+lineChartData.prototype = new basicChartData();
 var graphApp = angular.module('graphApp', []);
 
 graphApp.factory('DataFactoryMany', function () {
