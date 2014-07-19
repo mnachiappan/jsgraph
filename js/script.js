@@ -46,8 +46,11 @@ function basicChartData(){
             for(var i = 0; i < labelsLength; i++){
                 this.labels.push(_createLabelElement(newLabels[i]));
             }
+
             for (var i = 0; i < this.datasets.length; i++){
-                this.datasets[i].data.push(_fillArray(_createDataElement(0), labelsLength));
+                for (var j = 0; j < this.labels.length - this.datasets[i].data.length; j++){
+                    this.datasets[i].data.push(_createDataElement(0));
+                }
             }
         }
 
@@ -99,6 +102,32 @@ function lineChartData(){
         for(var i = 0; i<data.length; i++){
             result.push(data[i][_elemTag]);
         }
+        return result;
+    }
+
+    this.flattenDataset = function(dataset){
+        var result = {};
+        result["label"] = dataset.label;
+        result["fillColor"] = this.flattenRGBColor(dataset.fillColor);
+        result["strokeColor"] = this.flattenRGBColor(dataset.strokeColor);
+        result["pointColor"] = this.flattenRGBColor(dataset.pointColor);
+        result["pointStrokeColor"] = dataset.pointStrokeColor;
+        result["pointHighlightFill"] = dataset.pointHighlightFill;
+        result["pointHighlightStroke"] = this.flattenRGBColor(dataset.pointHighlightStroke);
+        console.log(dataset);
+        console.log(dataset.data);
+        result["data"] = this.flattenData(dataset.data);
+        return result;
+    }
+
+    this.flattenAll = function(){
+        var result = {};
+        var datasets = [];
+        result["labels"] = this.flattenLabels();
+        for(var i = 0; i<this.datasets.length; i++){
+            datasets.push(this.flattenDataset(this.datasets[i]));
+        }
+        result["datasets"] = datasets;
         return result;
     }
 

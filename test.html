@@ -1,7 +1,7 @@
 <html>
-	<head>
-		
-	</head>
+<head>
+
+</head>
 <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-2.0.0/jasmine_favicon.png">
 <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-2.0.0/jasmine.css"> 
 
@@ -14,127 +14,158 @@
 <script type="text/javascript" src="jasmine/lib/jasmine-2.0.0/boot.js"></script>
 
 
-	<body>
-		
-	</body>
+<body>
 
-	<script>
-		describe("Add labels", function(){
-			var basicChart = new basicChartData();
-			it("adds labels to basicChartData object", function(){
-				basicChart.addLabels(["Hello", "Hi"]);
-				var act = basicChart.getLabels();
-				var exp = [{"label": "Hello"}, {"label": "Hi"}];
-				expect(act).toEqual(exp);
-			});
+</body>
 
-			var lineChart = new lineChartData();
-			it("adds labels to lineChartData object", function(){
-				lineChart.addLabels(["Sup", "Hi"]);
-				var act = lineChart.getLabels();
-				var exp = [{"label": "Sup"}, {"label": "Hi"}];
-				expect(act).toEqual(exp);
-			});
-		});
+<script>
+describe("Add labels", function(){
+	var basicChart = new basicChartData();
+	it("adds labels to basicChartData object", function(){
+		basicChart.addLabels(["Hello", "Hi"]);
+		var act = basicChart.getLabels();
+		var exp = [{"label": "Hello"}, {"label": "Hi"}];
+		expect(act).toEqual(exp);
+	});
 
-		describe("Flatten labels", function(){
-			var lineChart = new lineChartData();
-			lineChart.addLabels(["Sup", "Hi"]);
-			it("should flatten the label to be used in Chart.js", function(){
-				var act = lineChart.flattenLabels();
-				var exp = ["Sup", "Hi"];
-				expect(act).toEqual(exp);
-			});
-		});
+	var lineChart = new lineChartData();
+	it("adds labels to lineChartData object", function(){
+		lineChart.addLabels(["Sup", "Hi"]);
+		var act = lineChart.getLabels();
+		var exp = [{"label": "Sup"}, {"label": "Hi"}];
+		expect(act).toEqual(exp);
+	});
+});
 
-		describe("Flatten data", function(){
-			var lineChart = new lineChartData();
-			it("flattens rgba object to rbga(x, y, z, o)", function(){
-				var act = lineChart.flattenRGBColor({"r": 10, "b": 20, "g": 30, "o": 0.4});
-				var exp = "rgba(10,30,20,0.4)";
-				expect(act).toEqual(exp);
-			});
+describe("Flatten labels", function(){
+	var lineChart = new lineChartData();
+	lineChart.addLabels(["Sup", "Hi"]);
+	it("should flatten the label to be used in Chart.js", function(){
+		var act = lineChart.flattenLabels();
+		var exp = ["Sup", "Hi"];
+		expect(act).toEqual(exp);
+	});
+});
 
-			it("flattens data", function(){
-				var act = lineChart.flattenData([{"elem": 10}, {"elem": 54}]);
-				var exp = [10, 54];
-				expect(act).toEqual(exp);
-			});
-		});
+describe("Flatten data", function(){
+	var lineChart = new lineChartData();
+	it("flattens rgba object to rbga(x, y, z, o)", function(){
+		var act = lineChart.flattenRGBColor({"r": 10, "b": 20, "g": 30, "o": 0.4});
+		var exp = "rgba(10,30,20,0.4)";
+		expect(act).toEqual(exp);
+	});
 
-		describe("Add data", function(){
-			var lineChart;
-			it("add new data element to lineChartData object", function(){
-				lineChart = new lineChartData();
-				lineChart.addData("a label", {"r": 10, "b": 20, "g": 30, "o": 0.4},
-					{"r": 10, "b": 20, "g": 30, "o": 0.4},
-					{"r": 10, "b": 20, "g": 30, "o": 0.4},
-					"#fff",
-					"#fff",
-					{"r": 10, "b": 20, "g": 30, "o": 0.4},
-					[10, 54]);
+	it("flattens data", function(){
+		var act = lineChart.flattenData([{"elem": 10}, {"elem": 54}]);
+		var exp = [10, 54];
+		expect(act).toEqual(exp);
+	});
 
-				var act = lineChart.getDatasets()[0];
-				var exp = {
+	it("flattens all data", function(){
+		lineChart = new lineChartData();
+		lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
+			{"r": 4, "b": 5, "g": 6, "o": 0.2},
+			{"r": 7, "b": 8, "g": 9, "o": 0.3},
+			"#fff",
+			"#fff",
+			{"r": 10, "b": 11, "g": 12, "o": 0.4},
+			[10, 54]);
+		lineChart.addLabels(["Sup", "Hi"]);
+		var act = lineChart.flattenAll();
+		var exp = {
+			labels : ["Sup", "Hi"],
+			datasets : [
+				{
 					label: "a label",
-					fillColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
-					strokeColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
-					pointColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+					fillColor : "rgba(1,3,2,0.1)",
+					strokeColor : "rgba(4,6,5,0.2)",
+					pointColor : "rgba(7,9,8,0.3)",
 					pointStrokeColor : "#fff",
 					pointHighlightFill : "#fff",
-					pointHighlightStroke : {"r": 10, "b": 20, "g": 30, "o": 0.4},
-					data : [{"elem": 10}, {"elem": 54}]
-				};
-				expect(act).toEqual(exp);
-			});
-			it("add new data element with different colored fills", function(){
-				lineChart = new lineChartData();
-				lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
-					{"r": 4, "b": 5, "g": 6, "o": 0.2},
-					{"r": 7, "b": 8, "g": 9, "o": 0.3},
-					"#fff",
-					"#fff",
-					{"r": 10, "b": 11, "g": 12, "o": 0.4},
-					[10, 54]);
+					pointHighlightStroke : "rgba(10,12,11,0.4)",
+					data : [10, 54]
+				}
+			]
 
-				var act = lineChart.getDatasets()[0];
-				var exp = {
-					label: "a label",
-					fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
-					strokeColor : {"r": 4, "b": 5, "g": 6, "o": 0.2},
-					pointColor: {"r": 7, "b": 8, "g": 9, "o": 0.3},
-					pointStrokeColor : "#fff",
-					pointHighlightFill : "#fff",
-					pointHighlightStroke : {"r": 10, "b": 11, "g": 12, "o": 0.4},
-					data : [{"elem": 10}, {"elem": 54}]
-				};
-				expect(act).toEqual(exp);
-			});
-			it("should standardize the color", function(){
-				lineChart = new lineChartData();
-				lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
-					{"r": 300, "b": 5, "g": 6, "o": 0.2},
-					{"r": 7, "b": 8, "g": 9, "o": 3},
-					"#fff",
-					"#fff",
-					{"r": 10, "b": 11, "g": 12, "o": 0.4},
-					[10, 54]);
+		}
 
-				var act = lineChart.getDatasets()[0];
-				var exp = {
-					label: "a label",
-					fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
-					strokeColor : {"r": 255, "b": 5, "g": 6, "o": 0.2},
-					pointColor: {"r": 7, "b": 8, "g": 9, "o": 1},
-					pointStrokeColor : "#fff",
-					pointHighlightFill : "#fff",
-					pointHighlightStroke : {"r": 10, "b": 11, "g": 12, "o": 0.4},
-					data : [{"elem": 10}, {"elem": 54}]
-				};
-				expect(act).toEqual(exp);
-			});
+		expect(act).toEqual(exp);
+	})
+});
 
-		});
-	</script>
+describe("Add data", function(){
+	var lineChart;
+	it("add new data element to lineChartData object", function(){
+		lineChart = new lineChartData();
+		lineChart.addData("a label", {"r": 10, "b": 20, "g": 30, "o": 0.4},
+			{"r": 10, "b": 20, "g": 30, "o": 0.4},
+			{"r": 10, "b": 20, "g": 30, "o": 0.4},
+			"#fff",
+			"#fff",
+			{"r": 10, "b": 20, "g": 30, "o": 0.4},
+			[10, 54]);
+
+		var act = lineChart.getDatasets()[0];
+		var exp = {
+			label: "a label",
+			fillColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+			strokeColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+			pointColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+			pointStrokeColor : "#fff",
+			pointHighlightFill : "#fff",
+			pointHighlightStroke : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+			data : [{"elem": 10}, {"elem": 54}]
+		};
+		expect(act).toEqual(exp);
+	});
+	it("add new data element with different colored fills", function(){
+		lineChart = new lineChartData();
+		lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
+			{"r": 4, "b": 5, "g": 6, "o": 0.2},
+			{"r": 7, "b": 8, "g": 9, "o": 0.3},
+			"#fff",
+			"#fff",
+			{"r": 10, "b": 11, "g": 12, "o": 0.4},
+			[10, 54]);
+
+		var act = lineChart.getDatasets()[0];
+		var exp = {
+			label: "a label",
+			fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
+			strokeColor : {"r": 4, "b": 5, "g": 6, "o": 0.2},
+			pointColor: {"r": 7, "b": 8, "g": 9, "o": 0.3},
+			pointStrokeColor : "#fff",
+			pointHighlightFill : "#fff",
+			pointHighlightStroke : {"r": 10, "b": 11, "g": 12, "o": 0.4},
+			data : [{"elem": 10}, {"elem": 54}]
+		};
+		expect(act).toEqual(exp);
+	});
+	it("should standardize the color", function(){
+		lineChart = new lineChartData();
+		lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
+			{"r": 300, "b": 5, "g": 6, "o": 0.2},
+			{"r": 7, "b": 8, "g": 9, "o": 3},
+			"#fff",
+			"#fff",
+			{"r": 10, "b": 11, "g": 12, "o": 0.4},
+			[10, 54]);
+
+		var act = lineChart.getDatasets()[0];
+		var exp = {
+			label: "a label",
+			fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
+			strokeColor : {"r": 255, "b": 5, "g": 6, "o": 0.2},
+			pointColor: {"r": 7, "b": 8, "g": 9, "o": 1},
+			pointStrokeColor : "#fff",
+			pointHighlightFill : "#fff",
+			pointHighlightStroke : {"r": 10, "b": 11, "g": 12, "o": 0.4},
+			data : [{"elem": 10}, {"elem": 54}]
+		};
+		expect(act).toEqual(exp);
+	});
+
+});
+</script>
 
 </html>
