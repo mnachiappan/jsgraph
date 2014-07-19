@@ -19,11 +19,6 @@
 	</body>
 
 	<script>
-		describe("A suite", function() {
-  it("contains spec with an expectation", function() {
-    expect(true).toBe(true);
-  });
-});
 		describe("Add labels", function(){
 			var basicChart = new basicChartData();
 			it("adds labels to basicChartData object", function(){
@@ -40,6 +35,80 @@
 				var exp = [{"label": "Hello"}, {"label": "Hi"}];
 				expect(act).toEqual(exp);
 			});
+		});
+
+		describe("Add data", function(){
+			var lineChart;
+			it("add new data element to lineChartData object", function(){
+				lineChart = new lineChartData();
+				lineChart.addData("a label", {"r": 10, "b": 20, "g": 30, "o": 0.4},
+					{"r": 10, "b": 20, "g": 30, "o": 0.4},
+					{"r": 10, "b": 20, "g": 30, "o": 0.4},
+					"#fff",
+					"#fff",
+					{"r": 10, "b": 20, "g": 30, "o": 0.4},
+					[10, 54]);
+
+				var act = lineChart.getDatasets()[0];
+				var exp = {
+					label: "a label",
+					fillColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+					strokeColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+					pointColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : {"r": 10, "b": 20, "g": 30, "o": 0.4},
+					data : [{"elem": 10}, {"elem": 54}]
+				};
+				expect(act).toEqual(exp);
+			});
+			it("add new data element with different colored fills", function(){
+				lineChart = new lineChartData();
+				lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
+					{"r": 4, "b": 5, "g": 6, "o": 0.2},
+					{"r": 7, "b": 8, "g": 9, "o": 0.3},
+					"#fff",
+					"#fff",
+					{"r": 10, "b": 11, "g": 12, "o": 0.4},
+					[10, 54]);
+
+				var act = lineChart.getDatasets()[0];
+				var exp = {
+					label: "a label",
+					fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
+					strokeColor : {"r": 4, "b": 5, "g": 6, "o": 0.2},
+					pointColor: {"r": 7, "b": 8, "g": 9, "o": 0.3},
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : {"r": 10, "b": 11, "g": 12, "o": 0.4},
+					data : [{"elem": 10}, {"elem": 54}]
+				};
+				expect(act).toEqual(exp);
+			});
+			it("should standardize the color", function(){
+				lineChart = new lineChartData();
+				lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
+					{"r": 300, "b": 5, "g": 6, "o": 0.2},
+					{"r": 7, "b": 8, "g": 9, "o": 3},
+					"#fff",
+					"#fff",
+					{"r": 10, "b": 11, "g": 12, "o": 0.4},
+					[10, 54]);
+
+				var act = lineChart.getDatasets()[0];
+				var exp = {
+					label: "a label",
+					fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
+					strokeColor : {"r": 255, "b": 5, "g": 6, "o": 0.2},
+					pointColor: {"r": 7, "b": 8, "g": 9, "o": 1},
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : {"r": 10, "b": 11, "g": 12, "o": 0.4},
+					data : [{"elem": 10}, {"elem": 54}]
+				};
+				expect(act).toEqual(exp);
+			});
+
 		});
 	</script>
 
