@@ -102,11 +102,45 @@ ColorGenerator.prototype.color_data = [
     {r: 222, g: 184, b: 135} //"burlywood": 
 ];
 
+function clone(obj) {
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        var copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        var copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        var copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+}
+
 function lineChartData(){
     this.labels = [];
     this.datasets = [];
     var _labelTag = "label";
     var _elemTag = "elem";
+
+    var colorGen = new ColorGenerator();
 
     var createDataElement = function(dataElem){
         var result = {};
@@ -151,6 +185,31 @@ function lineChartData(){
             datasets.push(this.flattenDataset(this.datasets[i]));
         }
         result["datasets"] = datasets;
+        return result;
+    }
+
+    /*
+        Create new dataset with label: 'labelName' and with 'numberLabels' data elements.
+     */
+    this.addEmptyDataSet = function(numberLabels, labelName){
+        var result = {};
+        var color = clone(colorGen.getNextColor());
+        var color2 = clone(color);
+        result["label"] = labelName;
+        color2["o"] = 0.2;
+        result["fillColor"] = color2;
+        color["o"] = 1;
+        result["strokeColor"] = color;
+        result["pointColor"] = color;
+        result["pointStrokeColor"] = "#fff"
+        result["pointHighlightFill"] = "#fff"
+        result["pointHighlightStroke"] = color;
+        var localData = []
+        for(var i = 0; i < numberLabels; i++){
+            localData.push(createDataElement(0));
+        }
+
+        result["data"] = localData;
         return result;
     }
 

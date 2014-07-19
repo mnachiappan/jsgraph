@@ -113,6 +113,21 @@ describe("Add data", function(){
 		};
 		expect(act).toEqual(exp);
 	});
+	it("adds an empty dataset", function(){
+		lineChart = new lineChartData();
+		var act = lineChart.addEmptyDataSet(3, "label0");
+		var exp = {
+			label: "label0",
+			fillColor : {r: 240, g: 248, b: 255, o: 0.2},
+			strokeColor : {r: 240, g: 248, b: 255, o: 1},
+			pointColor: {r: 240, g: 248, b: 255, o: 1},
+			pointStrokeColor : "#fff",
+			pointHighlightFill : "#fff",
+			pointHighlightStroke : {r: 240, g: 248, b: 255, o: 1},
+			data : [{"elem": 0}, {"elem": 0}, {"elem": 0}]
+		}
+		expect(act).toEqual(exp);
+	});
 	it("add new data element with different colored fills", function(){
 		lineChart = new lineChartData();
 		lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
