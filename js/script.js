@@ -79,6 +79,29 @@ function basicChartData(){
         }
     }
 
+function ColorGenerator(){
+    this.currentColor = 0;
+
+}
+
+ColorGenerator.prototype.getNextColor = function(){
+    if(this.currentColor >= this.color_data.length){
+        this.currentColor = 0;
+    }
+    var color = this.color_data[this.currentColor];
+    this.currentColor++;
+    return color;
+}
+
+ColorGenerator.prototype.color_data = [
+    {r: 240, g: 248, b: 255}, //"aliceblue": 
+    {r: 218, g: 165, b: 32}, //"goldenrod": 
+    {r: 119, g: 136, b: 153}, //"lightslategrey": 
+    {r: 70, g: 130, b: 180}, //"steelblue": 
+    {r: 147, g: 112, b: 216}, //"mediumpurple": 
+    {r: 222, g: 184, b: 135} //"burlywood": 
+];
+
 function lineChartData(){
     this.labels = [];
     this.datasets = [];
@@ -229,15 +252,11 @@ var graphApp = angular.module('graphApp', []);
 
 graphApp.controller('GraphController', ['$scope', function ($scope) {
 
-
-
-    // methods for labels
-
-    var emptyLabel = (function () {
-        return {label: ""};
-    });
-
     $scope.numberOfLabels = null;
+
+    $scope.numberOfDataSets = null;
+
+
 
     $scope.dataLabels = [];
 
@@ -274,7 +293,7 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
         }
     });
 
-    $scope.numberOfDataSets = null;
+    
 
     $scope.dataSets = [];
 

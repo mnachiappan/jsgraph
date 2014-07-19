@@ -13,11 +13,6 @@
 <script type="text/javascript" src="jasmine/lib/jasmine-2.0.0/jasmine-html.js"></script>
 <script type="text/javascript" src="jasmine/lib/jasmine-2.0.0/boot.js"></script>
 
-
-<body>
-
-</body>
-
 <script>
 describe("Add labels", function(){
 	var basicChart = new basicChartData();
@@ -165,6 +160,19 @@ describe("Add data", function(){
 		expect(act).toEqual(exp);
 	});
 
+});
+
+describe("Color generator", function(){
+	it("should select colors in order", function(){
+		var color = new ColorGenerator();
+		expect(color.getNextColor()).toEqual({r: 240, g: 248, b: 255});
+		expect(color.getNextColor()).toEqual({r: 218, g: 165, b: 32});
+		expect(color.getNextColor()).toEqual({r: 119, g: 136, b: 153});
+		expect(color.getNextColor()).toEqual({r: 70, g: 130, b: 180});
+		expect(color.getNextColor()).toEqual({r: 147, g: 112, b: 216});
+		expect(color.getNextColor()).toEqual({r: 222, g: 184, b: 135});
+		expect(color.getNextColor()).toEqual({r: 240, g: 248, b: 255});
+	});
 });
 </script>
 
