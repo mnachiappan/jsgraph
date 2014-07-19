@@ -66,6 +66,14 @@ function basicChartData(){
                 this.labels[location][_labelTag] = newLabel;
             }
         }
+
+        this.flattenLabels = function(){
+            var labels = [];
+            for(var i = 0; i < this.labels.length; i++){
+                labels.push(this.labels[i][_labelTag]);
+            }
+            return labels;
+        }
     }
 
 function lineChartData(){
@@ -74,12 +82,25 @@ function lineChartData(){
     var _labelTag = "label";
     var _elemTag = "elem";
 
-    var createDataElement = function(data){
+    var createDataElement = function(dataElem){
         var result = {};
-        result[_elemTag] = data;
+        result[_elemTag] = dataElem;
         return result;
     }
 
+
+    this.flattenRGBColor = function(color){
+        var result = "rgba(" + color.r + "," + color.g + "," + color.b + "," + color.o + ")";
+        return result;
+    }
+
+    this.flattenData = function(data){
+        var result = [];
+        for(var i = 0; i<data.length; i++){
+            result.push(data[i][_elemTag]);
+        }
+        return result;
+    }
 
     this.addData = function(label, fillColor, strokeColor, pointColor, pointStrokeColor, pointHighlightFill, pointHighlightStroke, data){
         fillColor = this.standardizeColor(fillColor);
@@ -140,6 +161,14 @@ function lineChartData(){
     this.setDataPointHighlightFill = function(index, pointHighlightFill){
         pointHighlightFill = this.standardizeColor(pointHighlightFill);
         this.datasets[index].pointHighlightFill = pointHighlightFill;
+    }
+
+    this.setData = function(index, data){
+        var localData = []
+        for(var i = 0; i < data.length; i++){
+            localData.push(createDataElement(data[i]));
+        }
+        this.datasets[index]["data"] = localData;
     }
 
 

@@ -30,9 +30,34 @@
 
 			var lineChart = new lineChartData();
 			it("adds labels to lineChartData object", function(){
-				lineChart.addLabels(["Hello", "Hi"]);
+				lineChart.addLabels(["Sup", "Hi"]);
 				var act = lineChart.getLabels();
-				var exp = [{"label": "Hello"}, {"label": "Hi"}];
+				var exp = [{"label": "Sup"}, {"label": "Hi"}];
+				expect(act).toEqual(exp);
+			});
+		});
+
+		describe("Flatten labels", function(){
+			var lineChart = new lineChartData();
+			lineChart.addLabels(["Sup", "Hi"]);
+			it("should flatten the label to be used in Chart.js", function(){
+				var act = lineChart.flattenLabels();
+				var exp = ["Sup", "Hi"];
+				expect(act).toEqual(exp);
+			});
+		});
+
+		describe("Flatten data", function(){
+			var lineChart = new lineChartData();
+			it("flattens rgba object to rbga(x, y, z, o)", function(){
+				var act = lineChart.flattenRGBColor({"r": 10, "b": 20, "g": 30, "o": 0.4});
+				var exp = "rgba(10,30,20,0.4)";
+				expect(act).toEqual(exp);
+			});
+
+			it("flattens data", function(){
+				var act = lineChart.flattenData([{"elem": 10}, {"elem": 54}]);
+				var exp = [10, 54];
 				expect(act).toEqual(exp);
 			});
 		});
