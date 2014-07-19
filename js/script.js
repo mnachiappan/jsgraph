@@ -66,7 +66,7 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
 
     $scope.numberOfDataSets = null;
 
-
+    $scope.lineChartData = new LineChartData();
 
     $scope.dataLabels = [];
 

@@ -8,6 +8,7 @@
 <script src="Chart.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/ChartData.js"></script>
+<script src="js/LineChart.js"></script>
 <script src="js/script.js"></script>
 
 <script type="text/javascript" src="jasmine/lib/jasmine-2.0.0/jasmine.js"></script>
@@ -16,16 +17,16 @@
 
 <script>
 describe("Add labels", function(){
-	var basicChart = new basicChartData();
-	it("adds labels to basicChartData object", function(){
+	var basicChart = new BasicChartData();
+	it("adds labels to BasicChartData object", function(){
 		basicChart.addLabels(["Hello", "Hi"]);
 		var act = basicChart.getLabels();
 		var exp = [{"label": "Hello"}, {"label": "Hi"}];
 		expect(act).toEqual(exp);
 	});
 
-	var lineChart = new lineChartData();
-	it("adds labels to lineChartData object", function(){
+	var lineChart = new LineChartData();
+	it("adds labels to LineChartData object", function(){
 		lineChart.addLabels(["Sup", "Hi"]);
 		var act = lineChart.getLabels();
 		var exp = [{"label": "Sup"}, {"label": "Hi"}];
@@ -34,7 +35,7 @@ describe("Add labels", function(){
 });
 
 describe("Flatten labels", function(){
-	var lineChart = new lineChartData();
+	var lineChart = new LineChartData();
 	lineChart.addLabels(["Sup", "Hi"]);
 	it("should flatten the label to be used in Chart.js", function(){
 		var act = lineChart.flattenLabels();
@@ -44,7 +45,7 @@ describe("Flatten labels", function(){
 });
 
 describe("Flatten data", function(){
-	var lineChart = new lineChartData();
+	var lineChart = new LineChartData();
 	it("flattens rgba object to rbga(x, y, z, o)", function(){
 		var act = lineChart.flattenRGBColor({"r": 10, "b": 20, "g": 30, "o": 0.4});
 		var exp = "rgba(10,30,20,0.4)";
@@ -58,7 +59,7 @@ describe("Flatten data", function(){
 	});
 
 	it("flattens all data", function(){
-		lineChart = new lineChartData();
+		lineChart = new LineChartData();
 		lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
 			{"r": 4, "b": 5, "g": 6, "o": 0.2},
 			{"r": 7, "b": 8, "g": 9, "o": 0.3},
@@ -91,8 +92,8 @@ describe("Flatten data", function(){
 
 describe("Add data", function(){
 	var lineChart;
-	it("add new data element to lineChartData object", function(){
-		lineChart = new lineChartData();
+	it("add new data element to LineChartData object", function(){
+		lineChart = new LineChartData();
 		lineChart.addData("a label", {"r": 10, "b": 20, "g": 30, "o": 0.4},
 			{"r": 10, "b": 20, "g": 30, "o": 0.4},
 			{"r": 10, "b": 20, "g": 30, "o": 0.4},
@@ -115,7 +116,7 @@ describe("Add data", function(){
 		expect(act).toEqual(exp);
 	});
 	it("adds an empty dataset", function(){
-		lineChart = new lineChartData();
+		lineChart = new LineChartData();
 		var act = lineChart.addEmptyDataSet(3, "label0");
 		var exp = {
 			label: "label0",
@@ -130,7 +131,7 @@ describe("Add data", function(){
 		expect(act).toEqual(exp);
 	});
 	it("add new data element with different colored fills", function(){
-		lineChart = new lineChartData();
+		lineChart = new LineChartData();
 		lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
 			{"r": 4, "b": 5, "g": 6, "o": 0.2},
 			{"r": 7, "b": 8, "g": 9, "o": 0.3},
@@ -153,7 +154,7 @@ describe("Add data", function(){
 		expect(act).toEqual(exp);
 	});
 	it("should standardize the color", function(){
-		lineChart = new lineChartData();
+		lineChart = new LineChartData();
 		lineChart.addData("a label", {"r": 1, "b": 2, "g": 3, "o": 0.1},
 			{"r": 300, "b": 5, "g": 6, "o": 0.2},
 			{"r": 7, "b": 8, "g": 9, "o": 3},
