@@ -2,6 +2,72 @@
  * Created by Meyyappan on 7/12/2014.
  */
 
+function basicChartData(){
+        var _labels = [];
+        var _datasets = [];
+        var _labelTag = "label";
+        var _elemTag = "elem";
+        function _fillArray(value, len) {
+          var arr = [];
+          for (var i = 0; i < len; i++) {
+            arr.push(value);
+          };
+          return arr;
+        }
+
+        function _createLabelElement(value){
+            var result = [];
+            result[_labelTag] = value;
+            return result;
+        }
+
+        function _createDataElement(value){
+            var result = [];
+            result[_elemTag] = value;
+            return result;
+        }
+
+        this.getLabels = function(){
+            return _labels;
+        }
+
+        /*
+        Append labels to end of current label set.
+        Also update the datasets, so that each set has new data elements.
+        Example:
+        INPUT
+        newLabels = ["Hello", "Hi"]
+        RESULT
+        _labels = [..., {"label": "Hello"}, {"label": "Hi"}]
+        _datasets [{..., "data": [...,{"elem": 0}, {"elem": 0}]}]
+        */
+        this.addLabels = function(newLabels){
+            var labelsLength = newLabels.length;
+            for(var i = 0; i < labelsLength; i++){
+                _labels.push(_createLabelElement(newLabels[i]));
+            }
+            for (var i = 0; i < _datasets.length; i++){
+                _datasets[i].data.push(_fillArray(_createDataElement(0), labelsLength));
+            }
+        }
+
+        // Changes the label of an existing label, given a new label and the index location.
+        // Example:
+        // INPUT
+        // newLabel = "Jan"
+        // location = 1
+        // RESULT
+        // 
+        
+        this.setLabel = function(newLabel, location){
+            if(location >= _labels.length){
+                console.log("Attempted to add new label: " + newLabel + ", at location: " + location + ".");
+            }else{
+                _labels[location][_labelTag] = newLabel;
+            }
+        }
+    }
+
 var graphApp = angular.module('graphApp', []);
 
 graphApp.factory('DataFactoryMany', function () {
@@ -107,16 +173,90 @@ graphApp.factory('LineFactory', function () {
         };
     });
 
+    lineFactory["localLabelsToLineChart"] = (function (localLabels) {
+        var chartLabels = [];
+        for (label in localLabels) {
+            chartLabels.push(label['label']);
+        }
+        return chartLabels;
+    });
+
+    // ex data: [{val: 0}, {val: 0}]
+    lineFactory["localDataToChartData"] = (function (label, fillColor, strokeColor, pointColor, pointStrokeColor, pointHighlightFill, pointHighlightStroke, localData) {
+        var result = {};
+        result['label'] = label;
+        result['fillColor'] = fillColor;
+        result['strokeColor'] = strokeColor;
+        result['pointColor'] = pointColor;
+        result['pointStrokeColor'] = pointStrokeColor;
+        result['pointHighlightFill'] = pointHighlightFill;
+        result['pointHighlightStroke'] = pointHighlightStroke;
+        var data = [];
+        for (value in localData){
+            data.push(value.val)
+        }
+        result['data'] = data;
+        return result;
+    });
+
     return lineFactory;
 });
 
 graphApp.controller('GraphController', ['$scope', 'DataFactoryMany', 'LineFactory', function ($scope, DataFactoryMany, LineFactory) {
+
+
+
+    // methods for labels
+
+    var emptyLabel = (function () {
+        return {label: ""};
+    });
+
     $scope.numberOfLabels = null;
-    $scope.numberOfDataSets = null;
 
     $scope.dataLabels = [];
 
+    $scope.insertEmptyLocalLabels = (function (numberLabels) {
+        while (numberLabels > 0) {
+            $scope.dataLabels.push(emptyLabel());
+            numberLabels--;
+        }
+    });
+
+    // end method for labels
+
+    $scope.initializeLabelAndData = (function (numberLabels, numberData) {
+        $scope.insertEmptyLocalDatas(numberLabels, numberData);
+        $scope.insertEmptyLocalLabels(numberLabels);
+    });
+
+    // methods for data
+    var emptyValue = (function () {
+        return {val: 0};
+    });
+
+    var newDataElement = (function (size) {
+        var result = [];
+        for (var i = 0; i < size; i++) {
+            result.push(emptyValue());
+        }
+        return result;
+    });
+
+    $scope.insertEmptyLocalDatas = (function (numberLabels, numberDataElements) {
+        for (var dataIndex = 0; dataIndex < numberDataElements; dataIndex++) {
+            $scope.dataSets.push(newDataElement(numberLabels));
+        }
+    });
+
+    $scope.numberOfDataSets = null;
+
     $scope.dataSets = [];
+
+
+
+    // end of data
+
 
     $scope.newDataRow = (function () {
         $scope.dataSets.push(DataFactoryMany.newDataRow($scope.dataLabels.length));
@@ -137,11 +277,22 @@ graphApp.controller('GraphController', ['$scope', 'DataFactoryMany', 'LineFactor
         window.myLine.update();
     });
 
+    $scope.updateLabel = (function (labelIndex, newLabel) {
+        if (newLabel !== null && newLabel !== undefined) {
+            chartInfo.chart.datasets[labelIndex].label = newLabel;
+            chartInfo.chart.update();
+            console.log('updated label');
+            console.log(chartInfo.chart.datasets);
+        } else {
+            console.log("Error with label");
+        }
+    });
+
     $scope.updateData = (function (dataSetIndex, pointIndex, newValue) {
-        if(!isNaN(newValue)){
+        if (!isNaN(newValue)) {
             chartInfo.chart.datasets[dataSetIndex].points[pointIndex].value = newValue;
             chartInfo.chart.update();
-        }else{
+        } else {
             console.log("Please enter a number.");
         }
     });
@@ -160,15 +311,15 @@ graphApp.controller('GraphController', ['$scope', 'DataFactoryMany', 'LineFactor
 
     var convertDataToArray = (function (data) {
         var resultData = [];
-        for(var i = 0; i < data.length; i++){
+        for (var i = 0; i < data.length; i++) {
             resultData.push({val: data[i]});
         }
         return resultData;
     });
 
-    var convertDatasetsToArray = (function(datasets){
-       var resultSets = [];
-        for(var i =0; i<datasets.length; i++){
+    var convertDatasetsToArray = (function (datasets) {
+        var resultSets = [];
+        for (var i = 0; i < datasets.length; i++) {
             resultSets.push(convertDataToArray(datasets[i].data));
         }
         return resultSets;
@@ -177,6 +328,7 @@ graphApp.controller('GraphController', ['$scope', 'DataFactoryMany', 'LineFactor
     var chartInfo = null;
     $scope.createLine = (function (canvasId, numbLabels, numbDataSets) {
         chartInfo = LineFactory.newLine(canvasId, numbLabels, numbDataSets);
+        console.log(chartInfo);
         $scope.dataLabels = convertLabelsToLocalForm(chartInfo.chartData.labels);
         $scope.dataSets = convertDatasetsToArray(chartInfo.chartData.datasets);
     });
