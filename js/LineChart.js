@@ -1,63 +1,44 @@
-function LineChartData(){
-    this.labels = [];
-    this.datasets = [];
-    var _labelTag = "label";
-    var _elemTag = "elem";
-
-    var colorGen = new ColorGenerator();
-
-    var createDataElement = function(dataElem){
-        var result = {};
-        result[_elemTag] = dataElem;
-        return result;
+var ColorGenerator = (function(){
+    function ColorGenerator(){
+        this.currentColor = -1;
     }
 
-
-    this.flattenRGBColor = function(color){
-        var result = "rgba(" + color.r + "," + color.g + "," + color.b + "," + color.o + ")";
-        return result;
-    }
-
-    this.flattenData = function(data){
-        var result = [];
-        for(var i = 0; i<data.length; i++){
-            result.push(data[i][_elemTag]);
+    ColorGenerator.prototype.getNextColor = function(){
+        if(this.currentColor >= this.color_data.length - 1){
+            this.currentColor = 0;
+        }else{
+            this.currentColor = this.currentColor + 1;
         }
-        return result;
+        var color = this.color_data[this.currentColor];
+        
+        return color;
     }
 
-    this.flattenDataset = function(dataset){
-        var result = {};
-        result["label"] = dataset.label;
-        result["fillColor"] = this.flattenRGBColor(dataset.fillColor);
-        result["strokeColor"] = this.flattenRGBColor(dataset.strokeColor);
-        result["pointColor"] = this.flattenRGBColor(dataset.pointColor);
-        result["pointStrokeColor"] = dataset.pointStrokeColor;
-        result["pointHighlightFill"] = dataset.pointHighlightFill;
-        result["pointHighlightStroke"] = this.flattenRGBColor(dataset.pointHighlightStroke);
-        console.log(dataset);
-        console.log(dataset.data);
-        result["data"] = this.flattenData(dataset.data);
-        return result;
-    }
+    ColorGenerator.prototype.color_data = [
+        {r: 240, g: 248, b: 255}, //"aliceblue": 
+        {r: 218, g: 165, b: 32}, //"goldenrod": 
+        {r: 119, g: 136, b: 153}, //"lightslategrey": 
+        {r: 70, g: 130, b: 180}, //"steelblue": 
+        {r: 147, g: 112, b: 216}, //"mediumpurple": 
+        {r: 222, g: 184, b: 135} //"burlywood": 
+    ];
+    return ColorGenerator;
+})();
 
-    this.flattenAll = function(){
-        var result = {};
-        var datasets = [];
-        result["labels"] = this.flattenLabels();
-        for(var i = 0; i<this.datasets.length; i++){
-            datasets.push(this.flattenDataset(this.datasets[i]));
-        }
-        result["datasets"] = datasets;
-        return result;
-    }
+var LineChartData = (function(){
+    function LineChartData(){
+        this.labels = [];
+        this.datasets = [];
+        this.colorGen = new ColorGenerator();
 
-    /*
-        Create new dataset with label: 'labelName' and with 'numberLabels' data elements.
-     */
-    this.addEmptyDataSet = function(numberLabels, labelName){
+    }
+    LineChartData.prototype = new LabelData();
+
+    LineChartData.prototype._labelTag = "label";
+    LineChartData.prototype._elemTag = "elem";
+    LineChartData.prototype.addEmptyDataSet = function(numberLabels, labelName){
         var result = {};
-        var color = clone(colorGen.getNextColor());
+        var color = clone(this.colorGen.getNextColor());
         var color2 = clone(color);
         result["label"] = labelName;
         color2["o"] = 0.2;
@@ -70,14 +51,12 @@ function LineChartData(){
         result["pointHighlightStroke"] = color;
         var localData = []
         for(var i = 0; i < numberLabels; i++){
-            localData.push(createDataElement(10));
+            localData.push(this.createDataElement(0));
         }
-
         result["data"] = localData;
         this.datasets.push(result);
-    }
-
-    this.addData = function(label, fillColor, strokeColor, pointColor, pointStrokeColor, pointHighlightFill, pointHighlightStroke, data){
+    };
+    LineChartData.prototype.addData = function(label, fillColor, strokeColor, pointColor, pointStrokeColor, pointHighlightFill, pointHighlightStroke, data){
         fillColor = this.standardizeColor(fillColor);
         strokeColor = this.standardizeColor(strokeColor);
         pointColor = this.standardizeColor(pointColor);
@@ -85,9 +64,8 @@ function LineChartData(){
 
         var localData = []
         for(var i = 0; i < data.length; i++){
-            localData.push(createDataElement(data[i]));
+            localData.push(this.createDataElement(data[i]));
         }
-
 
         var result = {
             "label": label,
@@ -100,72 +78,113 @@ function LineChartData(){
             "data": localData
         };
         this.datasets.push(result);
-    }
+    };
 
-    this.getDatasets = function(){
-        return this.datasets;
-    }
+    LineChartData.prototype.lineChartDatasetProperties = ["label", "pointStrokeColor", "pointHighlightFill"];
+    LineChartData.prototype.lineChartDatasetRGBColor = ["fillColor", "strokeColor", "pointColor", "pointHighlightStroke"];
+    return LineChartData;
+})();
 
-    this.getData = function(index){
-        if(index >= this.datasets.length){
-            return null;
-        }else{
-            return this.datasets[index];
+// Common methods amongst all graphs
+// Steps to add new common method
+// create var and set a function
+// add the new function to commonFns
+// 
+(function(){
+
+    var createDataElement = function(dataElem){
+        var result = {};
+        result[this._elemTag] = dataElem;
+        return result;
+    };
+
+    var flattenRGBColor = function(color){
+        var result = "rgba(" + color.r + "," + color.g + "," + color.b + "," + color.o + ")";
+        return result;
+    };
+
+    var flattenData = function(data){
+        var result = [];
+        for(var i = 0; i<data.length; i++){
+            result.push(data[i][this._elemTag]);
         }
-    }
+        return result;
+    };
 
-    this.setDataFillColor = function(index, fillColor){
-        fillColor = this.standardizeColor(fillColor);
-        this.datasets[index].fillColor = fillColor;
-    }
-
-    this.setDataStrokeColor = function(index, strokeColor){
-        strokeColor = this.standardizeColor(strokeColor);
-        this.datasets[index].strokeColor = strokeColor;
-    }
-
-    this.setDataPointColor = function(index, pointColor){
-        pointColor = this.standardizeColor(pointColor);
-        this.datasets[index].pointColor = pointColor;
-    }
-
-    this.setDataPointStrokeColor = function(index, pointStrokeColor){
-        this.datasets[index].pointStrokeColor = pointStrokeColor;
-    }
-
-    this.setDataPointHighlightFill = function(index, pointHighlightFill){
-        pointHighlightFill = this.standardizeColor(pointHighlightFill);
-        this.datasets[index].pointHighlightFill = pointHighlightFill;
-    }
-
-    this.setData = function(index, data){
-        var localData = []
-        for(var i = 0; i < data.length; i++){
-            localData.push(createDataElement(data[i]));
+    var flattenDataset = function(dataset){
+        var result = {};
+        var lineChartDatasetProperties = this.lineChartDatasetProperties;
+        var lineChartDatasetRGBColor = this.lineChartDatasetRGBColor;
+        for(var i = 0; i < lineChartDatasetProperties.length; i++){
+            var property = lineChartDatasetProperties[i];
+            result[property] = dataset[property];
         }
-        this.datasets[index]["data"] = localData;
+        for(var i = 0; i < lineChartDatasetRGBColor.length; i++){
+            var property = lineChartDatasetRGBColor[i];
+            result[property] = this.flattenRGBColor(dataset[property]);
+        }
+        result["data"] = this.flattenData(dataset["data"]);
+        return result;
+    };
+
+    var flattenAll = function(){
+        var result = {};
+        var datasets = [];
+        result["labels"] = this.flattenLabels();
+        for(var i = 0; i<this.datasets.length; i++){
+            datasets.push(this.flattenDataset(this.datasets[i]));
+        }
+        result["datasets"] = datasets;
+        return result;
+    };
+
+    var standardizeColor = function(color){
+        if(color["r"] > 255){
+            color["r"] = 255;
+        }
+        if(color["b"] > 255){
+            color["b"] = 255;
+        }
+        if(color["g"] > 255){
+            color["g"] = 255;
+        }
+        if(color["o"] > 1){
+            color["o"] = 1;
+        }
+        return color;
+    };
+
+    var commonFns = [
+        {
+            fnName : "createDataElement",
+            fn : createDataElement
+        },
+        {
+            fnName : "flattenRGBColor",
+            fn : flattenRGBColor
+        },
+        {
+            fnName : "flattenData",
+            fn : flattenData
+        },
+        {
+            fnName : "flattenDataset",
+            fn : flattenDataset
+        },
+        {
+            fnName : "flattenAll",
+            fn : flattenAll
+        },
+        {
+            fnName : "standardizeColor",
+            fn : standardizeColor
+        }
+    ];
+
+    for (var i = 0; i < commonFns.length; i++){
+        var func = commonFns[i];
+        LineChartData.prototype[func["fnName"]] = func["fn"];        
     }
+})();
 
 
-}
-
-LineChartData.prototype = (new BasicChartData());
-
-/*
-    'color' is of form {"r": 10, "b": 20, "g": 30, "o": 0.4}
- */
-LineChartData.prototype.standardizeColor = function(color){
-    if(color["r"] > 255){
-        color["r"] = 255;
-    }
-    if(color["b"] > 255){
-        color["b"] = 255;
-    }
-    if(color["g"] > 255){
-        color["g"] = 255;
-    }
-    if(color["o"] > 1){
-        color["o"] = 1;
-    }
-    return color;
-}

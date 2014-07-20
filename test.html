@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-2.0.0/jasmine.css"> 
 
 <script src="Chart.js"></script>
-<script src="js/angular-mock.js"></script>
+
 <script src="js/angular.js"></script>
 <script src="js/ChartData.js"></script>
 <script src="js/LineChart.js"></script>
@@ -42,10 +42,10 @@ describe("angular linechart", function(){
 */
 
 describe("Add labels", function(){
-	var basicChart = new BasicChartData();
+	var basicChart = new LabelData();
 	it("adds labels to BasicChartData object", function(){
 		basicChart.addLabels(["Hello", "Hi"]);
-		var act = basicChart.getLabels();
+		var act = basicChart.labels;
 		var exp = [{"label": "Hello"}, {"label": "Hi"}];
 		expect(act).toEqual(exp);
 	});
@@ -53,7 +53,7 @@ describe("Add labels", function(){
 	var lineChart = new LineChartData();
 	it("adds labels to LineChartData object", function(){
 		lineChart.addLabels(["Sup", "Hi"]);
-		var act = lineChart.getLabels();
+		var act = lineChart.labels;
 		var exp = [{"label": "Sup"}, {"label": "Hi"}];
 		expect(act).toEqual(exp);
 	});
@@ -62,7 +62,7 @@ describe("Add labels", function(){
 	it("add n labels to chart", function(){
 		lineChart = new LineChartData();
 		lineChart.addNLabels(5);
-		var act = lineChart.getLabels();
+		var act = lineChart.labels;
 		var exp = [{"label": "label"}, {"label": "label"}, {"label": "label"}, {"label": "label"}, {"label": "label"}]
 		expect(act).toEqual(exp);
 	});
@@ -136,7 +136,7 @@ describe("Add data", function(){
 			{"r": 10, "b": 20, "g": 30, "o": 0.4},
 			[10, 54]);
 
-		var act = lineChart.getDatasets()[0];
+		var act = lineChart.datasets[0];
 		var exp = {
 			label: "a label",
 			fillColor : {"r": 10, "b": 20, "g": 30, "o": 0.4},
@@ -152,6 +152,7 @@ describe("Add data", function(){
 	it("adds an empty dataset", function(){
 		lineChart = new LineChartData();
 		var act = lineChart.addEmptyDataSet(3, "label0");
+		act = lineChart.datasets[0]
 		var exp = {
 			label: "label0",
 			fillColor : {r: 240, g: 248, b: 255, o: 0.2},
@@ -174,7 +175,7 @@ describe("Add data", function(){
 			{"r": 10, "b": 11, "g": 12, "o": 0.4},
 			[10, 54]);
 
-		var act = lineChart.getDatasets()[0];
+		var act = lineChart.datasets[0];
 		var exp = {
 			label: "a label",
 			fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
@@ -197,7 +198,7 @@ describe("Add data", function(){
 			{"r": 10, "b": 11, "g": 12, "o": 0.4},
 			[10, 54]);
 
-		var act = lineChart.getDatasets()[0];
+		var act = lineChart.datasets[0];
 		var exp = {
 			label: "a label",
 			fillColor : {"r": 1, "b": 2, "g": 3, "o": 0.1},
@@ -215,16 +216,20 @@ describe("Add data", function(){
 
 describe("Color generator", function(){
 	it("should select colors in order", function(){
-		var color = new ColorGenerator();
-		expect(color.getNextColor()).toEqual({r: 240, g: 248, b: 255});
-		expect(color.getNextColor()).toEqual({r: 218, g: 165, b: 32});
-		expect(color.getNextColor()).toEqual({r: 119, g: 136, b: 153});
-		expect(color.getNextColor()).toEqual({r: 70, g: 130, b: 180});
-		expect(color.getNextColor()).toEqual({r: 147, g: 112, b: 216});
-		expect(color.getNextColor()).toEqual({r: 222, g: 184, b: 135});
-		expect(color.getNextColor()).toEqual({r: 240, g: 248, b: 255});
+		var color1 = new ColorGenerator();
+		//var color = new ColorGenerator();
+
+		console.log(color1);
+		expect(color1.getNextColor()).toEqual({r: 240, g: 248, b: 255});
+		expect(color1.getNextColor()).toEqual({r: 218, g: 165, b: 32});
+		expect(color1.getNextColor()).toEqual({r: 119, g: 136, b: 153});
+		expect(color1.getNextColor()).toEqual({r: 70, g: 130, b: 180});
+		expect(color1.getNextColor()).toEqual({r: 147, g: 112, b: 216});
+		expect(color1.getNextColor()).toEqual({r: 222, g: 184, b: 135});
+		expect(color1.getNextColor()).toEqual({r: 240, g: 248, b: 255});
 	});
 });
+
 </script>
 
 </html>

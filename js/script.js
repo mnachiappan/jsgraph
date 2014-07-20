@@ -2,29 +2,6 @@
  * Created by Meyyappan on 7/12/2014.
  */
 
-function ColorGenerator(){
-    this.currentColor = 0;
-
-}
-
-ColorGenerator.prototype.getNextColor = function(){
-    if(this.currentColor >= this.color_data.length){
-        this.currentColor = 0;
-    }
-    var color = this.color_data[this.currentColor];
-    this.currentColor++;
-    return color;
-}
-
-ColorGenerator.prototype.color_data = [
-    //{r: 240, g: 248, b: 255}, //"aliceblue": 
-    {r: 218, g: 165, b: 32}, //"goldenrod": 
-    {r: 119, g: 136, b: 153}, //"lightslategrey": 
-    {r: 70, g: 130, b: 180}, //"steelblue": 
-    {r: 147, g: 112, b: 216}, //"mediumpurple": 
-    {r: 222, g: 184, b: 135} //"burlywood": 
-];
-
 function clone(obj) {
     // Handle the 3 simple types, and null or undefined
     if (null == obj || "object" != typeof obj) return obj;
@@ -55,7 +32,7 @@ function clone(obj) {
     }
 
     throw new Error("Unable to copy obj! Its type isn't supported.");
-}
+};
 
 var graphApp = angular.module('graphApp', []);
 

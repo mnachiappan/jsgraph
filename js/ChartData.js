@@ -1,7 +1,7 @@
-var BasicChartData = (function basicChartClosure(){
+var LabelData = (function basicChartClosure(){
     var _labelTag = "label";
     var _elemTag = "elem";
-    function BasicChartData(){
+    function LabelData(){
         this.labels = [];
         this.datasets = [];
         function _fillArray(value, len) {
@@ -77,14 +77,14 @@ var BasicChartData = (function basicChartClosure(){
     };
 
     // Add n labels to default labels
-    BasicChartData.prototype.addNLabels = function(n){
+    LabelData.prototype.addNLabels = function(n){
         var labels = [];
         for (var i = 0; i < n; i++){
             labels.push("label");
         }
         this.addLabels(labels);
     };
-    return BasicChartData;
+    return LabelData;
 })();
 
 
