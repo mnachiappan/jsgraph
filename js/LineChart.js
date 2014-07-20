@@ -74,7 +74,7 @@ function LineChartData(){
         }
 
         result["data"] = localData;
-        return result;
+        this.datasets.push(result);
     }
 
     this.addData = function(label, fillColor, strokeColor, pointColor, pointStrokeColor, pointHighlightFill, pointHighlightStroke, data){
@@ -150,6 +150,7 @@ function LineChartData(){
 }
 
 LineChartData.prototype = (new BasicChartData());
+
 /*
     'color' is of form {"r": 10, "b": 20, "g": 30, "o": 0.4}
  */

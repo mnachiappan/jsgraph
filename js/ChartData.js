@@ -10,23 +10,23 @@ var BasicChartData = (function basicChartClosure(){
             arr.push(value);
           };
           return arr;
-        }
+        };
 
         function _createLabelElement(value){
             var result = {};
             result[_labelTag] = value;
             return result;
-        }
+        };
 
         function _createDataElement(value){
             var result = {};
             result[_elemTag] = value;
             return result;
-        }
+        };
 
         this.getLabels = function(){
             return this.labels;
-        }
+        };
 
         /*
         Append labels to end of current label set.
@@ -49,7 +49,7 @@ var BasicChartData = (function basicChartClosure(){
                     this.datasets[i].data.push(_createDataElement(0));
                 }
             }
-        }
+        };
 
         // Changes the label of an existing label, given a new label and the index location.
         // Example:
@@ -65,7 +65,7 @@ var BasicChartData = (function basicChartClosure(){
             }else{
                 this.labels[location][_labelTag] = newLabel;
             }
-        }
+        };
 
         this.flattenLabels = function(){
             var labels = [];
@@ -73,12 +73,17 @@ var BasicChartData = (function basicChartClosure(){
                 labels.push(this.labels[i][_labelTag]);
             }
             return labels;
-        }
-    }
+        };
+    };
 
+    // Add n labels to default labels
     BasicChartData.prototype.addNLabels = function(n){
-    
-    }
+        var labels = [];
+        for (var i = 0; i < n; i++){
+            labels.push("label");
+        }
+        this.addLabels(labels);
+    };
     return BasicChartData;
 })();
 

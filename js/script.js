@@ -66,7 +66,7 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
 
     $scope.numberOfDataSets = null;
 
-    $scope.lineChartData = new LineChartData();
+    $scope.lineChartData;
 
     $scope.dataLabels = [];
 
@@ -80,8 +80,13 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
     // end method for labels
 
     $scope.initializeLabelAndData = (function (numberLabels, numberData) {
-        $scope.insertEmptyLocalDatas(numberLabels, numberData);
-        $scope.insertEmptyLocalLabels(numberLabels);
+        $scope.lineChartData = new LineChartData()
+        $scope.lineChartData.addNLabels(numberLabels);
+        for (var i = 0; i < numberData; i++){
+            var label = "label" + i;
+            $scope.lineChartData.addEmptyDataSet(numberLabels, label);
+        }
+        console.log($scope.lineChartData);
     });
 
     // methods for data

@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-2.0.0/jasmine.css"> 
 
 <script src="Chart.js"></script>
+<script src="js/angular-mock.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/ChartData.js"></script>
 <script src="js/LineChart.js"></script>
@@ -16,6 +17,30 @@
 <script type="text/javascript" src="jasmine/lib/jasmine-2.0.0/boot.js"></script>
 
 <script>
+/*
+describe("angular linechart", function(){
+	var $compile;
+	var $rootScope;
+
+	beforeEach(module('graphApp'));
+
+	
+	beforeEach(inject(function(_$compile_, _$rootScope_){
+      // The injector unwraps the underscores (_) from around the parameter names when matching
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+    }));
+	
+
+    it("should initialize line graph data", inject(function($controller){
+    	var scope = {};
+    	var ctrl = $controller('GraphController', {$scope:scope});
+    	expect(null).toEqual(null);
+    }));
+
+});
+*/
+
 describe("Add labels", function(){
 	var basicChart = new BasicChartData();
 	it("adds labels to BasicChartData object", function(){
@@ -30,6 +55,15 @@ describe("Add labels", function(){
 		lineChart.addLabels(["Sup", "Hi"]);
 		var act = lineChart.getLabels();
 		var exp = [{"label": "Sup"}, {"label": "Hi"}];
+		expect(act).toEqual(exp);
+	});
+
+	
+	it("add n labels to chart", function(){
+		lineChart = new LineChartData();
+		lineChart.addNLabels(5);
+		var act = lineChart.getLabels();
+		var exp = [{"label": "label"}, {"label": "label"}, {"label": "label"}, {"label": "label"}, {"label": "label"}]
 		expect(act).toEqual(exp);
 	});
 });
