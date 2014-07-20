@@ -13,31 +13,37 @@
         <form>
             Number of labels: <input type="text" ng-model="numberOfLabels" />
             Number of data sets: <input type="text" ng-model="numberOfDataSets" />
-            <button ng-click="initializeLabelAndData(numberOfLabels, numberOfDataSets)" />
+            <button ng-click="initializeLabelAndData(numberOfLabels, numberOfDataSets)">
                 Create line graph
             </button>
         </form>
 
         <!-- Accept the labels -->
         <form>
-            <div ng-repeat="dataLabel in dataLabels">
+            <div ng-repeat="dataLabel in lineChartData.labels">
                 Label name: <input ng-model="dataLabel['label']" />
             </div>
+            <button ng-click="generateNewLineGraph()">
+                Add labels
+            </button>
         </form>
 
-        <div style="height: 400px; width: 400px">
-            <canvas id="canvas" height="450" width="600"></canvas>
+        <div id="graphContainer" style="width:50%">
+                <canvas id="canvas" height="450" width="600"></canvas>
         </div>
+        
 
         <table>
+            <!--
             <tr>
-               <th ng-repeat="dataLabel in dataLabels">
+               <th ng-repeat="dataLabel in lineChartData.labels">
                    <input ng-model="dataLabel['label']" ng-change="updateLabel($index, dataLabel.label)" />
                </th>
             </tr>
-            <tr ng-repeat="data in dataSets">
-                <td ng-repeat="elem in data">
-                    <input ng-model="elem.val" ng-change="updateData($parent.$index, $index, elem.val)" onclick="this.select()"/>
+        -->
+            <tr ng-repeat="dataset in lineChartData.datasets">
+                <td ng-repeat="elem in dataset.data">
+                    <input ng-model="elem.elem" ng-change="updateData($parent.$index, $index, elem.elem)" onclick="this.select()"/>
                 </td>
             </tr>
         </table>
@@ -60,7 +66,7 @@
 
 </body>
 
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/script.js"></script>
 <script src="Chart.js"></script>

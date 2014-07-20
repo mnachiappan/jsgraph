@@ -17,7 +17,7 @@ ColorGenerator.prototype.getNextColor = function(){
 }
 
 ColorGenerator.prototype.color_data = [
-    {r: 240, g: 248, b: 255}, //"aliceblue": 
+    //{r: 240, g: 248, b: 255}, //"aliceblue": 
     {r: 218, g: 165, b: 32}, //"goldenrod": 
     {r: 119, g: 136, b: 153}, //"lightslategrey": 
     {r: 70, g: 130, b: 180}, //"steelblue": 
@@ -68,8 +68,13 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
 
     $scope.lineChartData;
 
-    $scope.dataLabels = [];
+    $scope.formattedData;
 
+    var lineChart;
+    var graphContainerID = "#graphContainer";
+    var graphID = "canvas";
+    var ctx;
+    
     $scope.insertEmptyLocalLabels = (function (numberLabels) {
         while (numberLabels > 0) {
             $scope.dataLabels.push(emptyLabel());
@@ -89,6 +94,53 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
         console.log($scope.lineChartData);
     });
 
+    $scope.generateNewLineGraph = function(){
+        $scope.formattedData = $scope.lineChartData.flattenAll();
+
+        console.log(document.getElementById("canvas"));
+        $('#' + graphID).remove();
+        console.log('<canvas id="' + graphID + '"></canvas>');
+        $(graphContainerID).append('<canvas id="' + graphID + '"></canvas>');
+        console.log(document.getElementById("canvas"));
+        ctx = document.getElementById(graphID).getContext("2d");
+
+
+        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+        var lineChartData = {
+            labels : ["January","February","March","April","May","June","July"],
+            datasets : [
+                {
+                    label: "My First dataset",
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                },
+                {
+                    label: "My Second dataset",
+                    fillColor : "rgba(151,187,205,0.2)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(151,187,205,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                }
+            ]
+
+        }
+
+        lineChart = new Chart(ctx).Line($scope.formattedData, {responsive: true});
+        console.log("lineChart");
+        console.log(lineChart);
+        console.log("formatted data");
+        console.log($scope.formattedData);
+        console.log(lineChartData);
+    };
+
     // methods for data
     var emptyValue = (function () {
         return {val: 0};
@@ -101,6 +153,7 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
         }
         return result;
     });
+
 
     $scope.insertEmptyLocalDatas = (function (numberLabels, numberDataElements) {
         for (var dataIndex = 0; dataIndex < numberDataElements; dataIndex++) {
@@ -149,8 +202,10 @@ graphApp.controller('GraphController', ['$scope', function ($scope) {
 
     $scope.updateData = (function (dataSetIndex, pointIndex, newValue) {
         if (!isNaN(newValue)) {
-            chartInfo.chart.datasets[dataSetIndex].points[pointIndex].value = newValue;
-            chartInfo.chart.update();
+            console.log("linechart");
+            console.log(lineChart);
+            lineChart.datasets[dataSetIndex].points[pointIndex].value = newValue;
+            lineChart.update();
         } else {
             console.log("Please enter a number.");
         }

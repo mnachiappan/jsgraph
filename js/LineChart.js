@@ -70,7 +70,7 @@ function LineChartData(){
         result["pointHighlightStroke"] = color;
         var localData = []
         for(var i = 0; i < numberLabels; i++){
-            localData.push(createDataElement(0));
+            localData.push(createDataElement(10));
         }
 
         result["data"] = localData;
