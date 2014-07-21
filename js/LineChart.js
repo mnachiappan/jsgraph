@@ -15,7 +15,7 @@ var ColorGenerator = (function(){
     }
 
     ColorGenerator.prototype.color_data = [
-        {r: 240, g: 248, b: 255}, //"aliceblue": 
+        //{r: 240, g: 248, b: 255}, //"aliceblue": 
         {r: 218, g: 165, b: 32}, //"goldenrod": 
         {r: 119, g: 136, b: 153}, //"lightslategrey": 
         {r: 70, g: 130, b: 180}, //"steelblue": 
@@ -135,7 +135,10 @@ var LineChartData = (function(){
             datasets.push(this.flattenDataset(this.datasets[i]));
         }
         result["datasets"] = datasets;
+                console.log("flattenAll");
+        console.log(result);
         return result;
+
     };
 
     var standardizeColor = function(color){
