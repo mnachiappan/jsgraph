@@ -179,17 +179,19 @@ graphApp.controller('LineGraphController', ['$scope', function ($scope) {
             var label = "label" + i;
             $scope.lineChartData.addEmptyDataSet(numberLabels, label);
         }
-        console.log($scope.lineChartData);
+        toNextScreen();
     });
 
     $scope.generateNewLineGraph = function(){
+        toNextScreen();
         $scope.formattedData = $scope.lineChartData.flattenAll();
-
-        $('#' + graphID).remove();
-        $(graphContainerID).append('<canvas id="' + graphID + '"></canvas>');
-        
+        console.log("creating graph");
+        console.log(document.getElementById("canvas"));
+        //$('#' + graphID).remove();
+        //$(graphContainerID).append('<canvas id="' + graphID + '" height="100" width="100"></canvas>');
+        //$(graphContainerID).append('<canvas id="canvas" height="100" width="100" style="width: 100px; height: 100px;"></canvas>');
         ctx = document.getElementById(graphID).getContext("2d");
-        lineChart = new Chart(ctx).Radar($scope.formattedData, {responsive: true});
+        lineChart = new Chart(ctx).Line($scope.formattedData, {responsive: true});
     };
 
     $scope.updateData = (function (dataSetIndex, pointIndex, newValue) {
