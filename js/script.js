@@ -44,7 +44,7 @@ graphApp.config(function($routeProvider){
     })
     .when('/line', {
         templateUrl: 'partials/line.html',
-        controller: 'LineController'
+        controller: 'LineGraphController'
     })
 });
 
@@ -148,6 +148,23 @@ graphApp.controller('LineGraphController', ['$scope', function ($scope) {
     $scope.lineChartData;
 
     $scope.formattedData;
+
+    $scope.screens = ["labelDataSelect", "labelInsert", "dataInsert"];
+    var toNextScreen = function(){
+        if($scope.selectedScreen < $scope.screens.length - 1){
+            $scope.selectedScreen++;
+        }
+    };
+
+    var toPreviousScreen = function(){
+        if ($scope.selectedScreen >= 1){
+            $scope.selectedScreen--;
+        }
+    };
+    $scope.selectedScreen = 0;
+    $scope.screenSelected = function(screen){
+        return screen == $scope.screens[$scope.selectedScreen];
+    }
 
     var lineChart;
     var graphContainerID = "#graphContainer";
