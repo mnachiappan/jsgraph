@@ -1,74 +1,21 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-2.0.0/jasmine_favicon.png">
-</head>
-<body>
+<html>
+	
+	<head>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	</head>
 
-<div ng-app="graphApp">
-    <div ng-controller="LineGraphController">
-        <form>
-            Number of labels: <input type="text" ng-model="numberOfLabels" />
-            Number of data sets: <input type="text" ng-model="numberOfDataSets" />
-            <button ng-click="initializeLabelAndData(numberOfLabels, numberOfDataSets)">
-                Create line graph
-            </button>
-        </form>
-
-        <!-- Accept the labels -->
-        <form>
-            <div ng-repeat="dataLabel in lineChartData.labels">
-                Label name: <input ng-model="dataLabel['label']" />
-            </div>
-            <button ng-click="generateNewLineGraph()">
-                Add labels
-            </button>
-        </form>
-
-        <div id="graphContainer" style="width:50%">
-                <canvas id="canvas" height="450" width="600"></canvas>
-        </div>
-        
-
-        <table>
-            <!--
-            <tr>
-               <th ng-repeat="dataLabel in lineChartData.labels">
-                   <input ng-model="dataLabel['label']" ng-change="updateLabel($index, dataLabel.label)" />
-               </th>
-            </tr>
-        -->
-            <tr ng-repeat="dataset in lineChartData.datasets">
-                <td ng-repeat="elem in dataset.data">
-                    <input ng-model="elem.elem" ng-change="updateData($parent.$index, $index, elem.elem)" onclick="this.select()"/>
-                </td>
-            </tr>
-        </table>
-        <!--
-        <button ng-click="newDataRow()">
-            Add row
-        </button>
-        <button ng-click="addLabel('Newjklfs', 2)">
-            Add label
-        </button>
-        <button ng-click="pushData()">
-            Push data
-        </button>
-        {{dataSets[0]["data"][0]["val"]}}
-        {{dataLabels[0]['label']}}
-        -->
-
-    </div>
-</div>
-
-</body>
-
+	<body ng-app="graphApp">
+		<div ng-view></div>
+	</body>
+	
+	
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
 <script src="js/script.js"></script>
-<script src="Chart.js"></script>
+<script src="js/Chart.js"></script>
 <script src="js/ChartData.js"></script>
-<script src="js/LineChart.js"></script>
+<script src="linegraph/LineChart.js"></script>
+<script src="linegraph/LineController.js"></script>
+
 </html>
