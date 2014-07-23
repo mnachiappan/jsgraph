@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4" id="graphContainer">
+		<div class="col-md-8 col-md-offset-2" id="graphContainer">
 			<canvas id="canvas"></canvas>
 		</div>
 	</div>
@@ -34,7 +34,7 @@
 		<div class="col-xs-8 col-xs-offset-2">
 			<form role="form">
 			    <div class="form-group" ng-repeat="dataLabel in lineChartData.labels">
-			        <input ng-model="dataLabel['label']" type="text" class="form-control" />
+			        <input ng-model="dataLabel['label']" type="text" class="form-control" onclick="this.select()"/>
 			    </div>
 			    <button type="submit" ng-click="generateNewLineGraph()" class="btn btn-success">
 			        Add labels
@@ -46,8 +46,11 @@
 
 <div class="container-fluid" id="dataInsert" ng-show="screenSelected('dataInsert')">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<table>
+		<div class="col-xs-12">
+			<h1 class="text-center">Enter data</h1>
+		</div>
+		<div class="col-md-8 col-md-offset-2" style="overflow-y: visible; overflow-x: auto;">
+			<table class="center-block">
 			    <tr>
 			       <th ng-repeat="dataLabel in lineChartData.labels">
 			           {{dataLabel['label']}}

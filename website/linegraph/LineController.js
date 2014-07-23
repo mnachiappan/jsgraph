@@ -1,5 +1,35 @@
 graphApp.controller('LineGraphController', ['$scope', function ($scope) {
 
+    
+
+    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+    var lineChartData = {
+        labels : ["label1","label2","label3","label4","label5","label6","label7"],
+        datasets : [
+            {
+                label: "My First dataset",
+                fillColor : "rgba(220,220,220,0.2)",
+                strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(220,220,220,1)",
+                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+            },
+            {
+                label: "My Second dataset",
+                fillColor : "rgba(151,187,205,0.2)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(151,187,205,1)",
+                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+            }
+        ]
+
+    };
+
     $scope.numberOfLabels = null;
 
     $scope.numberOfDataSets = null;
@@ -28,8 +58,14 @@ graphApp.controller('LineGraphController', ['$scope', function ($scope) {
     var lineChart;
     var graphContainerID = "#graphContainer";
     var graphID = "canvas";
-    var ctx;
-
+    var ctx = document.getElementById("canvas").getContext("2d");
+    lineChart = new Chart(ctx).Line(lineChartData, {responsive: true});
+    var resetLineGraph = function(data){
+        $('#canvas').remove();
+        $('#graphContainer').append('<canvas id="canvas"></canvas>');
+        ctx = document.getElementById("canvas").getContext("2d");
+        lineChart = new Chart(ctx).Line(data, {responsive: true});
+    };
 
     $scope.initializeLabelAndData = (function (numberLabels, numberData) {
         $scope.lineChartData = new LineChartData()
@@ -39,18 +75,14 @@ graphApp.controller('LineGraphController', ['$scope', function ($scope) {
             $scope.lineChartData.addEmptyDataSet(numberLabels, label);
         }
         toNextScreen();
+        $scope.formattedData = $scope.lineChartData.flattenAll();
+        resetLineGraph($scope.formattedData);
     });
 
     $scope.generateNewLineGraph = function(){
         toNextScreen();
         $scope.formattedData = $scope.lineChartData.flattenAll();
-        console.log("creating graph");
-        console.log(document.getElementById("canvas"));
-        //$('#' + graphID).remove();
-        //$(graphContainerID).append('<canvas id="' + graphID + '" height="100" width="100"></canvas>');
-        //$(graphContainerID).append('<canvas id="canvas" height="100" width="100" style="width: 100px; height: 100px;"></canvas>');
-        ctx = document.getElementById(graphID).getContext("2d");
-        lineChart = new Chart(ctx).Line($scope.formattedData, {responsive: true});
+        resetLineGraph($scope.formattedData);
     };
 
     $scope.updateData = (function (dataSetIndex, pointIndex, newValue) {
