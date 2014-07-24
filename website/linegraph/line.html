@@ -72,7 +72,7 @@
 <div class="container-fluid" id="generateCode" ng-show="screenSelected('generateCode')">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<div class="codeblock" ng-cloak style="display: block;">
+			<div class="codeblock" ng-cloak>
 				<h2>Javascript</h2>
 				<code>
 					(function(){
@@ -82,6 +82,21 @@
 						<br>
 						var lineChart = new Chart(ctx).Line(data, {responsive: true});
 				})();
+				</code>
+			</div>
+
+			<div class="codeblock" ng-cloak>
+				<h2>HTML</h2>
+				<code>
+					&lt;div style=&quot;width:30%&quot;&gt;
+					<br>
+						&lt;div&gt;
+						<br>
+							&lt;canvas id=&quot;chartCanvas&quot; height=&quot;450&quot; width=&quot;600&quot;&gt;&lt;/canvas&gt;
+							<br>
+						&lt;/div&gt;
+						<br>
+					&lt;/div&gt;
 				</code>
 			</div>
 		</div>
