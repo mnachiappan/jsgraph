@@ -69,11 +69,12 @@
 	</div>
 </div>
 
-<div class="container-fluid" id="generateCode" ng-show="screenSelected('generateCode')">
+<div class="container-fluid" id="generateCode" ng-show="screenSelected('generateCode')" ng-cloak>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<div class="codeblock" ng-cloak>
-				<h2>Javascript</h2>
+			<div class="codeblock">
+				<h2>JavaScript</h2>
+				<p>Include this JS in JavaScript file.</p>
 				<code>
 					(function(){
 						var chartData = {{ generatedJavascript }};
@@ -83,9 +84,12 @@
 						var lineChart = new Chart(ctx).Line(data, {responsive: true});
 				})();
 				</code>
+
+				<p>Download and link to this JavaScript file.</p>
+				<a href="files/Chart.js" target="_blank">Chart.js</a>
 			</div>
 
-			<div class="codeblock" ng-cloak>
+			<div class="codeblock">
 				<h2>HTML</h2>
 				<code>
 					&lt;div style=&quot;width:30%&quot;&gt;
