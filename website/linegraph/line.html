@@ -72,9 +72,16 @@
 <div class="container-fluid" id="generateCode" ng-show="screenSelected('generateCode')">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<div ng-cloak style="display: block; word-wrap: break-word">
+			<div class="codeblock" ng-cloak style="display: block;">
+				<h2>Javascript</h2>
 				<code>
-					var chartData = {{ generatedJavascript }};
+					(function(){
+						var chartData = {{ generatedJavascript }};
+						<br>
+						var ctx = document.getElementById("chartCanvas").getContext("2d");
+						<br>
+						var lineChart = new Chart(ctx).Line(data, {responsive: true});
+				})();
 				</code>
 			</div>
 		</div>
