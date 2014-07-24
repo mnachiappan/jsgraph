@@ -1,5 +1,5 @@
-graphApp.controller('LineGraphController', ['$scope', function ($scope) {
-
+graphApp.controller('LineGraphController', ['$scope', 'objectConvert', function ($scope, objectConvert) {
+    var objectConvert = objectConvert;
     
 
     var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
@@ -38,7 +38,9 @@ graphApp.controller('LineGraphController', ['$scope', function ($scope) {
 
     $scope.formattedData;
 
-    $scope.screens = ["labelDataSelect", "labelInsert", "dataInsert"];
+    $scope.generatedJavascript;
+
+    $scope.screens = ["labelDataSelect", "labelInsert", "dataInsert", "generateCode"];
     var toNextScreen = function(){
         if($scope.selectedScreen < $scope.screens.length - 1){
             $scope.selectedScreen++;
@@ -93,5 +95,15 @@ graphApp.controller('LineGraphController', ['$scope', function ($scope) {
             console.log("Please enter a number.");
         }
     });
+
+    $scope.generateJS = function(){
+        $scope.generatedJavascript = objectConvert.toJSON($scope.formattedData);
+        return true;
+    };
+
+    $scope.generateCode = function(){
+        $scope.generateJS();
+        toNextScreen();
+    };
 
 }]);

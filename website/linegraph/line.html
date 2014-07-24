@@ -63,6 +63,21 @@
 			    </tr>
 			</table>
 		</div>
+		<div class="col-md-8 col-md-offset-2">
+			<button type="submit" ng-click="generateCode()" class="btn btn-success">Generate code</button>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" id="generateCode" ng-show="screenSelected('generateCode')">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div ng-cloak>
+				<code>
+					var chartData = {{ generatedJavascript }};
+				</code>
+			</div>
+		</div>
 	</div>
 </div>
 </div>
