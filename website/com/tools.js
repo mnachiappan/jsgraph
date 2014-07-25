@@ -1,7 +1,3 @@
-/**
- * Created by Meyyappan on 7/12/2014.
- */
-
 function clone(obj) {
     // Handle the 3 simple types, and null or undefined
     if (null == obj || "object" != typeof obj) return obj;
@@ -33,20 +29,3 @@ function clone(obj) {
 
     throw new Error("Unable to copy obj! Its type isn't supported.");
 };
-
-var graphApp = angular.module('graphApp', ['ngRoute']);
-
-graphApp.config(function($routeProvider){
-    $routeProvider
-    .when('/', {
-        templateUrl : 'selectionspage/selection.html',
-        controller : 'SelectionController'
-    })
-    .when('/line', {
-        templateUrl: 'linegraph/line.html',
-        controller: 'LineGraphController'
-    })
-});
-
-
-
