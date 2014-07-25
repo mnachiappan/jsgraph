@@ -9,11 +9,11 @@ var graphApp = angular.module('graphApp', ['ngRoute']);
 graphApp.config(function($routeProvider){
     $routeProvider
     .when('/', {
-        templateUrl : 'selectionspage/selection.html',
+        templateUrl : 'com/chart/main/selection.html',
         controller : 'SelectionController'
     })
     .when('/line', {
-        templateUrl: 'linegraph/line.html',
+        templateUrl: 'com/chart/graphs/line/line.html',
         controller: 'LineGraphController'
     })
 });
