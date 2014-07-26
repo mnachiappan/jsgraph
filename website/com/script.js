@@ -4,8 +4,9 @@
 
 
 
-var graphApp = angular.module('graphApp', ['ngRoute']);
+var graphApp = angular.module('graphApp', ['ngRoute', 'ui.router']);
 
+/*
 graphApp.config(function($routeProvider){
     $routeProvider
     .when('/', {
@@ -16,6 +17,18 @@ graphApp.config(function($routeProvider){
         templateUrl: 'com/chart/graphs/line/line.html',
         controller: 'LineGraphController'
     })
+});
+*/
+
+graphApp.config(function($stateProvider, $urlRouterProvider){
+	$urlRouterProvider.otherwise('/graphs');
+
+	$stateProvider
+		.state('graphs', {
+			url: '/graphs',
+			templateUrl: 'com/chart/main/selection.html', 
+			controller: 'SelectionController'
+		});
 });
 
 
