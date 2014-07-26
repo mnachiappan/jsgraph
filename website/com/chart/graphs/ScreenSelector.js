@@ -18,4 +18,6 @@ graphApp.factory('screenSelector', [function screenSelectorFactory () {
 	screenFactory.isScreenSelected = function (screenName, currentScreenIndex) {
 		return screenName === screenFactory.screens[currentScreenIndex];
 	};
+
+	return screenFactory;
 }]);
