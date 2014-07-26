@@ -87,4 +87,5 @@ graphApp.controller('SelectionController', ['$scope', function($scope){
     var bar = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(barChartData, {
             responsive : true
         });
+
 }]);
