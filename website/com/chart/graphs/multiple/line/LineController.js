@@ -1,34 +1,9 @@
-graphApp.controller('LineGraphController', ['$scope', 'objectConvert', function ($scope, objectConvert) {
+graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSelector', function ($scope, objectConvert, screenSelector) {
     var objectConvert = objectConvert;
-    
 
-    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-    var lineChartData = {
-        labels : ["label1","label2","label3","label4","label5","label6","label7"],
-        datasets : [
-            {
-                label: "My First dataset",
-                fillColor : "rgba(220,220,220,0.2)",
-                strokeColor : "rgba(220,220,220,1)",
-                pointColor : "rgba(220,220,220,1)",
-                pointStrokeColor : "#fff",
-                pointHighlightFill : "#fff",
-                pointHighlightStroke : "rgba(220,220,220,1)",
-                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-            },
-            {
-                label: "My Second dataset",
-                fillColor : "rgba(151,187,205,0.2)",
-                strokeColor : "rgba(151,187,205,1)",
-                pointColor : "rgba(151,187,205,1)",
-                pointStrokeColor : "#fff",
-                pointHighlightFill : "#fff",
-                pointHighlightStroke : "rgba(151,187,205,1)",
-                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-            }
-        ]
-
-    };
+    // template chart
+    var randomScalingFactor = function(){ return Math.round(Math.random()*100)}; var lineChartData = { labels : ["label1","label2","label3","label4","label5","label6","label7"], datasets : [ { label: "My First dataset", fillColor : "rgba(220,220,220,0.2)", strokeColor : "rgba(220,220,220,1)", pointColor : "rgba(220,220,220,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(220,220,220,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] }, { label: "My Second dataset", fillColor : "rgba(151,187,205,0.2)", strokeColor : "rgba(151,187,205,1)", pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(151,187,205,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] } ] };
+    // end of template chart
 
     $scope.numberOfLabels = null;
 
@@ -40,23 +15,26 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', function 
 
     $scope.generatedJavascript;
 
-    $scope.screens = ["labelDataSelect", "labelInsert", "dataInsert", "generateCode"];
-    var toNextScreen = function(){
-        if($scope.selectedScreen < $scope.screens.length - 1){
-            $scope.selectedScreen++;
-        }
+    // screen controlling
+
+    var screenSelector = screenSelector;
+
+    $scope.selectedScreen = 0;
+    
+    $scope.toNextScreen = function (currentScreenIndex) {
+        $scope.selectedScreen = screenSelector.toNextScreen(currentScreenIndex);
     };
 
-    var toPreviousScreen = function(){
-        if ($scope.selectedScreen >= 1){
-            $scope.selectedScreen--;
-        }
+    $scope.toPreviousScreen = function (currentScreenIndex) {
+        $scope.selectedScreen = screenSelector.toPreviousScreen(currentScreenIndex);
     };
-    $scope.selectedScreen = 0;
-    $scope.screenSelected = function(screen){
-        return screen == $scope.screens[$scope.selectedScreen];
+
+    $scope.isScreenSelected = function (screenName) {
+        return screenSelector.isScreenSelected(screenName, $scope.selectedScreen);
     }
 
+    // end of screen controlling
+    
     var lineChart;
     var graphContainerID = "#graphContainer";
     var graphID = "canvas";
