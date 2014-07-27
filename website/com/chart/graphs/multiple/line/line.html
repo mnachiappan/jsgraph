@@ -37,8 +37,11 @@
             </div>
             <div class="col-xs-8 col-xs-offset-2">
                 <form role="form">
-                    <div class="form-group" ng-repeat="dataLabel in lineChartData.labels">
+                    <div class="input-group" ng-repeat="dataLabel in lineChartData.labels">
                         <input ng-model="dataLabel['label']" type="text" class="form-control" onclick="this.select()"/>
+                         <span class="input-group-btn">
+                            <button class="btn btn-danger" ng-click="" aria-label="Remove">X</button>
+                         </span>
                     </div>
                     <button type="submit" ng-click="generateNewLineGraph()" class="btn btn-success">
                         Add labels
@@ -47,68 +50,69 @@
             </div>
         </div>
     </div>
-    <!--
-        <div class="container-fluid" id="dataInsert" ng-show="isScreenSelected('dataInsert')">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="text-center">Enter data</h1>
-                </div>
-                <div class="col-md-8 col-md-offset-2" style="overflow-y: visible; overflow-x: auto;">
-                    <table class="center-block">
-                        <tr>
-                           <th ng-repeat="dataLabel in lineChartData.labels">
-                               {{dataLabel['label']}}
-                           </th>
-                        </tr>
-                        <tr ng-repeat="dataset in lineChartData.datasets">
-                            <td ng-repeat="elem in dataset.data">
-                                <input ng-model="elem.elem" ng-change="updateData($parent.$index, $index, elem.elem)" onclick="this.select()"/>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-md-8 col-md-offset-2">
-                    <button type="submit" ng-click="generateCode()" class="btn btn-success">Generate code</button>
-                </div>
+
+    <div class="container-fluid" id="dataInsert" ng-show="isScreenSelected('dataInsert')">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="text-center">Enter data</h1>
+            </div>
+            <div class="col-md-8 col-md-offset-2" style="overflow-y: visible; overflow-x: auto;">
+                <table class="center-block">
+                    <tr>
+                        <th ng-repeat="dataLabel in lineChartData.labels">
+                            {{dataLabel['label']}}
+                        </th>
+                    </tr>
+                    <tr ng-repeat="dataset in lineChartData.datasets">
+                        <td ng-repeat="elem in dataset.data">
+                            <input ng-model="elem.elem" ng-change="updateData($parent.$index, $index, elem.elem)"
+                                   onclick="this.select()"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <button type="submit" ng-click="generateCode()" class="btn btn-success">Generate code</button>
             </div>
         </div>
+    </div>
+    <!--
+            <div class="container-fluid" id="generateCode" ng-show="isScreenSelected('generateCode')" ng-cloak>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="codeblock">
+                            <h2>JavaScript</h2>
+                            <p>Include this JS in JavaScript file.</p>
+                            <code>
+                                (function(){
+                                    var chartData = {{ generatedJavascript }};
+                                    <br>
+                                    var ctx = document.getElementById("chartCanvas").getContext("2d");
+                                    <br>
+                                    var lineChart = new Chart(ctx).Line(data, {responsive: true});
+                            })();
+                            </code>
 
-        <div class="container-fluid" id="generateCode" ng-show="isScreenSelected('generateCode')" ng-cloak>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="codeblock">
-                        <h2>JavaScript</h2>
-                        <p>Include this JS in JavaScript file.</p>
-                        <code>
-                            (function(){
-                                var chartData = {{ generatedJavascript }};
-                                <br>
-                                var ctx = document.getElementById("chartCanvas").getContext("2d");
-                                <br>
-                                var lineChart = new Chart(ctx).Line(data, {responsive: true});
-                        })();
-                        </code>
+                            <p>Download and link to this JavaScript file.</p>
+                            <a href="files/Chart.js" target="_blank">Chart.js</a>
+                        </div>
 
-                        <p>Download and link to this JavaScript file.</p>
-                        <a href="files/Chart.js" target="_blank">Chart.js</a>
-                    </div>
-
-                    <div class="codeblock">
-                        <h2>HTML</h2>
-                        <code>
-                            &lt;div style=&quot;width:30%&quot;&gt;
-                            <br>
-                                &lt;div&gt;
+                        <div class="codeblock">
+                            <h2>HTML</h2>
+                            <code>
+                                &lt;div style=&quot;width:30%&quot;&gt;
                                 <br>
-                                    &lt;canvas id=&quot;chartCanvas&quot; height=&quot;450&quot; width=&quot;600&quot;&gt;&lt;/canvas&gt;
+                                    &lt;div&gt;
+                                    <br>
+                                        &lt;canvas id=&quot;chartCanvas&quot; height=&quot;450&quot; width=&quot;600&quot;&gt;&lt;/canvas&gt;
+                                        <br>
+                                    &lt;/div&gt;
                                     <br>
                                 &lt;/div&gt;
-                                <br>
-                            &lt;/div&gt;
-                        </code>
+                            </code>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        -->
+            -->
 </div>
