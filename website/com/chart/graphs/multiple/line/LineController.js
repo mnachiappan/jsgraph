@@ -62,6 +62,10 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
         lineCanvas.updateData(dataSetIndex, pointIndex, newValue)
     });
 
+    $scope.removeLabel = function (labelIndex) {
+        $scope.lineChartData.removeLabel(labelIndex);
+    };
+
     $scope.generateJS = function(){
         $scope.generatedJavascript = objectConvert.toJSON($scope.formattedData);
         return true;

@@ -84,6 +84,19 @@ var LabelData = (function basicChartClosure(){
         }
         this.addLabels(labels);
     };
+
+    LabelData.prototype.removeLabel = function (index) {
+        if((this.labels.length - 1) <= 1){
+            return;
+        }
+      if(index < this.labels.length){
+          this.labels.splice(index, 1);
+          for(var i = 0; i < this.datasets.length; i++){
+              this.datasets[i].data.splice(index, 1);
+          }
+      }
+    };
+
     return LabelData;
 })();
 
