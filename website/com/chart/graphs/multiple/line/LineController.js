@@ -20,12 +20,13 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
     // screen controlling
 
-    var screenSelector = screenSelector;
+    //var screenSelector = screenSelector;
 
     $scope.selectedScreen = 0;
     
-    $scope.toNextScreen = function (currentScreenIndex) {
-        $scope.selectedScreen = screenSelector.toNextScreen(currentScreenIndex);
+    $scope.toNextScreen = function () {
+        $scope.selectedScreen = screenSelector.toNextScreen($scope.selectedScreen);
+        console.log($scope.selectedScreen);
     };
 
     $scope.toPreviousScreen = function (currentScreenIndex) {
@@ -46,13 +47,13 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
             var label = "label" + i;
             $scope.lineChartData.addEmptyDataSet(numberLabels, label);
         }
-        toNextScreen();
+        $scope.toNextScreen();
         $scope.formattedData = $scope.lineChartData.flattenAll();
         lineCanvas.resetLineGraph($scope.formattedData);
     });
 
     $scope.generateNewLineGraph = function(){
-        toNextScreen();
+        $scope.toNextScreen();
         $scope.formattedData = $scope.lineChartData.flattenAll();
         lineCanvas.resetLineGraph($scope.formattedData);
     };
@@ -68,7 +69,7 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
     $scope.generateCode = function(){
         $scope.generateJS();
-        toNextScreen();
+        $scope.toNextScreen();
     };
 
 }]);
