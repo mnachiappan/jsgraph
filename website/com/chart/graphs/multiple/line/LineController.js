@@ -67,7 +67,7 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
     };
 
     $scope.generateJS = function(){
-        $scope.generatedJavascript = objectConvert.toJSON($scope.formattedData);
+        $scope.generatedJavascript = objectConvert.toJSON($scope.lineChartData.flattenAll());
         return true;
     };
 
