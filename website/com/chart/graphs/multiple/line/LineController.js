@@ -7,10 +7,11 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
     var lineChart = new Chart(ctx).Line(lineChartData, {responsive: true});
 
     // end of template chart
+    $scope.dataSize = {};
 
-    $scope.numberOfLabels = null;
+    $scope.dataSize.numberOfLabels = 2;
 
-    $scope.numberOfDataSets = null;
+    $scope.numberOfDataSets = 1;
 
     $scope.lineChartData;
 
