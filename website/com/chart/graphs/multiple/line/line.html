@@ -1,4 +1,4 @@
-<div>
+<div class="graphsGeneral">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2" id="graphContainer">
@@ -16,8 +16,8 @@
                         <label for="numberOfLabels">Number of labels</label>
                         <!--ng-pattern="/^0*([2-9]{1}|[1-9]{1}[0-9]{1})$/"-->
                         <input type="number" name="labels" ng-model="dataSize.numberOfLabels" min="2" required class="form-control" id="numberOfLabels" onclick="this.select()">
-                        <div ng-show="chartSizeForm.labels.$dirty">
-                            <p class="bg-danger">
+                        <div ng-show="chartSizeForm.labels.$dirty && (chartSizeForm.labels.$error.required || chartSizeForm.labels.$error.number || chartSizeForm.labels.$error.min)">
+                            <p class="bg-danger spacing-y-Danger">
                                 <span ng-show="chartSizeForm.labels.$error.required">Required.</span>
                                 <span ng-show="chartSizeForm.labels.$error.number">Not valid number.</span>
                                 <span ng-show="chartSizeForm.labels.$error.min">Need at least two labels.</span>
