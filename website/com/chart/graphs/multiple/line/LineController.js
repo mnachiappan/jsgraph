@@ -11,7 +11,7 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
     $scope.dataSize.numberOfLabels = 2;
 
-    $scope.numberOfDataSets = 1;
+    $scope.dataSize.numberOfDataSets = 1;
 
     $scope.lineChartData;
 

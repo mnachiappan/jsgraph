@@ -14,7 +14,6 @@
                 <form role="form" name="chartSizeForm">
                     <div class="form-group">
                         <label for="numberOfLabels">Number of labels</label>
-                        <!--ng-pattern="/^0*([2-9]{1}|[1-9]{1}[0-9]{1})$/"-->
                         <input type="number" name="labels" ng-model="dataSize.numberOfLabels" min="2" required class="form-control" id="numberOfLabels" onclick="this.select()">
                         <div ng-show="chartSizeForm.labels.$dirty && (chartSizeForm.labels.$error.required || chartSizeForm.labels.$error.number || chartSizeForm.labels.$error.min)">
                             <p class="bg-danger spacing-y-Danger">
@@ -27,10 +26,20 @@
                     </div>
                     <div class="form-group">
                         <label for="numberOfDatasets">Number of datasets</label>
-                        <input type="number" min="1" ng-model="numberOfDataSets" class="form-control"
-                               id="numberOfDatasets" placeholder="" onclick="this.select()">
+                        <input type="number" name="datasets" ng-model="dataSize.numberOfDataSets" min="1" required class="form-control" id="numberOfDatasets" onclick="this.select()">
+
+                        <!-- Error messages -->
+                        <div ng-show="chartSizeForm.datasets.$dirty && (chartSizeForm.datasets.$error.required || chartSizeForm.datasets.$error.number || chartSizeForm.datasets.$error.min)">
+
+                            <p class="bg-danger spacing-y-Danger">
+                                <span ng-show="chartSizeForm.datasets.$error.required">Required.</span>
+                                <span ng-show="chartSizeForm.datasets.$error.number">Not valid number.</span>
+                                <span ng-show="chartSizeForm.datasets.$error.min">Need at least one dataset.</span>
+                            </p>
+
+                        </div>
                     </div>
-                    <button type="submit" ng-click="initializeLabelAndData(dataSize.numberOfLabels, numberOfDataSets)"
+                    <button type="submit" ng-click="initializeLabelAndData(dataSize.numberOfLabels, dataSize.numberOfDataSets)"
                             class="btn btn-success">Continue
                     </button>
                 </form>
