@@ -39,7 +39,7 @@
 
                         </div>
                     </div>
-                    <button type="submit" ng-click="initializeLabelAndData(dataSize.numberOfLabels, dataSize.numberOfDataSets)"
+                    <button type="submit" ng-disabled="chartSizeForm.$invalid" ng-click="initializeLabelAndData(dataSize.numberOfLabels, dataSize.numberOfDataSets)"
                             class="btn btn-success">Continue
                     </button>
                 </form>
