@@ -1,5 +1,5 @@
 .home header{
-    background-color: #b84d45;
+    background-color: #4682B4;
     background-image: url(headerbg.png);
 }
 
@@ -7,11 +7,12 @@
     color: white;
     padding-top: 10%;
     padding-bottom: 5%;
+    min-height: 100%;
+    text-align: center;
 }
 
 .home .site-title{
     display: block;
-    text-align: center;
     line-height: 1;
     font-size: 3em;
     font-weight: 700;
@@ -21,4 +22,17 @@
     .home .site-title{
         font-size: 5em;
     }
+}
+
+.home .start-button{
+    margin-top: 1em;
+    background-color: transparent;
+    color: white;
+    border-color: white;
+}
+
+.home .start-button:hover{
+    background: white;
+    color: #4682B4;
+    border-color: white;
 }
