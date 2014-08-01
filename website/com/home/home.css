@@ -1,5 +1,5 @@
 .home header{
-    background-color: #4682B4;
+    background-color: rgb(133, 105, 151);
     background-image: url(headerbg.png);
 }
 
@@ -7,7 +7,7 @@
     color: white;
     padding-top: 10%;
     padding-bottom: 5%;
-    min-height: 100%;
+    /*min-height: 100%;*/
     text-align: center;
 }
 
@@ -33,6 +33,6 @@
 
 .home .start-button:hover{
     background: white;
-    color: #4682B4;
+    color: rgb(133, 105, 151);
     border-color: white;
 }
