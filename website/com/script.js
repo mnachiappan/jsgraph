@@ -9,7 +9,10 @@ var graphApp = angular.module('graphApp', ['ngRoute', 'ui.router']);
 
 graphApp.config(function($routeProvider){
     $routeProvider
-    .when('/', {
+        .when('/',{
+            templateUrl: 'com/home/home.html',
+        })
+    .when('/selection', {
         templateUrl : 'com/chart/main/selection.html',
         controller : 'SelectionController'
     })
