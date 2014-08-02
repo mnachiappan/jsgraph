@@ -11,6 +11,7 @@ graphApp.config(function($routeProvider){
     $routeProvider
         .when('/',{
             templateUrl: 'com/home/home.html',
+            controller : 'SelectionController'
         })
     .when('/selection', {
         templateUrl : 'com/chart/main/selection.html',

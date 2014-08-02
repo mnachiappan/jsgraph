@@ -7,9 +7,38 @@
         </div>
     </header>
     <div class="body">
-        <div class="container">
+        <div class="container centre">
             <h1>Free, open source, and easy to make.</h1>
-            <p>Create HTML5 based charts that are responsive and interactive. Choose your graph and begin!</p>
+            <p>Create HTML5 based charts that are responsive and interactive. Choose your chart and begin!</p>
+            <hr/>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <h1 class="text-center">Select graph</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <a href="#line">
+                    <div class="col-md-4" id="linecontainer">
+                        <canvas id="linecanvas" height="450" width="600"></canvas>
+                    </div>
+                </a>
+                <a href="">
+                    <div class="col-md-4">
+                        <canvas id="radarcanvas" height="450" width="600"></canvas>
+                    </div>
+                </a>
+
+                <a href="">
+                    <div class="col-md-4">
+                        <canvas id="barcanvas" height="450" width="600"></canvas>
+                    </div>
+                </a>
+            </div>
+
         </div>
     </div>
 </div>
