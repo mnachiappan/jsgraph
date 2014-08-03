@@ -57,7 +57,7 @@
                     <div class="input-group" ng-repeat="dataLabel in lineChartData.labels">
                         <input ng-model="dataLabel['label']" type="text" class="form-control" onclick="this.select()"/>
                          <span class="input-group-btn">
-                            <button class="btn btn-danger" ng-click="removeLabel($index)" aria-label="Remove">X</button>
+                            <a class="btn btn-danger" ng-click="removeLabel($index)" aria-label="Remove">X</a>
                          </span>
                     </div>
                     <button type="submit" ng-click="generateNewLineGraph()" class="btn btn-success">
