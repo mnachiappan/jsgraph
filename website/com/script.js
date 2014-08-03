@@ -23,14 +23,6 @@ graphApp.config(function($routeProvider){
     })
 });
 
-graphApp.run(function($rootScope, $location, $anchorScroll, $routeParams) {
-    //when the route is changed scroll to the proper element.
-    $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
-        $location.hash($routeParams.scrollTo);
-        $anchorScroll();
-    });
-});
-
 /*
 graphApp.config(function($stateProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('/graphs');
