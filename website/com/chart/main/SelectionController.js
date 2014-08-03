@@ -1,4 +1,9 @@
-graphApp.controller('SelectionController', ['$scope', function($scope){
+graphApp.controller('SelectionController', ['$scope', '$location', '$anchorScroll', function($scope, $location, $anchorScroll){
+        $scope.scrollTo = function(id) {
+            $location.hash(id);
+            $anchorScroll();
+        };
+
         var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
         var lineChartData = {
             labels : ["January","February","March","April","May","June","July"],

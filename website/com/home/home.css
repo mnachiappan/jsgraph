@@ -40,3 +40,23 @@
 .home .centre{
     text-align: center;
 }
+
+.home .chart-title{
+    text-align: center;
+}
+
+.home .chart-group{
+    margin-bottom: 15px;
+}
+
+a{
+    color: #85144b;
+}
+
+a:hover{
+    color: #85144b;
+}
+
+a:visited{
+    color: #85144b;
+}
