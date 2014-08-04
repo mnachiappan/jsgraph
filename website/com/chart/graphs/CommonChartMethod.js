@@ -99,6 +99,9 @@
 
     for (var i = 0; i < commonFns.length; i++){
         var func = commonFns[i];
-        LineChartData.prototype[func["fnName"]] = func["fn"];        
+        var fnName = func["fnName"];
+        var fn = func["fn"];
+        LineChartData.prototype[fnName] = fn;
+        BarChartData.prototype[fnName] = fn;
     }
 })();

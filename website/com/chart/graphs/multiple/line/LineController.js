@@ -7,6 +7,8 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
     var ctx = document.getElementById("canvas").getContext("2d");
     var lineChart = new Chart(ctx).Line(lineChartData, {responsive: true});
 
+    $scope.chartType = "Line";
+
     // end of template chart
     $scope.dataSize = {};
 
@@ -45,7 +47,7 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
 
     $scope.initializeLabelAndData = (function (numberLabels, numberData) {
-        $scope.chartData = new LineChartData()
+        $scope.chartData = new LineChartData();
         $scope.chartData.addNLabels(numberLabels);
         for (var i = 0; i < numberData; i++){
             var label = "label" + i;
@@ -63,7 +65,7 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
     };
 
     $scope.updateData = (function (dataSetIndex, pointIndex, newValue) { 
-        lineCanvas.updateData(dataSetIndex, pointIndex, newValue)
+        lineCanvas.updateData(dataSetIndex, pointIndex, newValue, "line")
     });
 
     $scope.removeLabel = function (labelIndex) {

@@ -17,13 +17,19 @@ graphApp.factory('multipleCanvasFactory', [function multipleCanvasFactory() {
         ctx = document.getElementById(graphName).getContext("2d");
         if (chartType === "line") {
             lineChart = new Chart(ctx).Line(data, {responsive: true});
+        }else if(chartType === "bar"){
+            lineChart = new Chart(ctx).Bar(data, {responsive : true});
         }
 
     };
 
-    multipleCanvasFactory.updateData = function (dataSetIndex, pointIndex, newValue) {
+    multipleCanvasFactory.updateData = function (dataSetIndex, pointIndex, newValue, chartType) {
         if (!isNaN(newValue)) {
-            lineChart.datasets[dataSetIndex].points[pointIndex].value = newValue;
+            if(chartType === "line"){
+                lineChart.datasets[dataSetIndex].points[pointIndex].value = newValue;
+            }else if (chartType === "bar"){
+                lineChart.datasets[dataSetIndex].bars[pointIndex].value = newValue;
+            }
             lineChart.update();
         } else {
             console.log("Please enter a number.");

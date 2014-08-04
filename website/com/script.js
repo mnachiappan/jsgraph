@@ -17,6 +17,10 @@ graphApp.config(function($routeProvider){
         templateUrl : 'com/chart/main/selection.html',
         controller : 'SelectionController'
     })
+        .when('/bar', {
+            templateUrl: 'com/chart/graphs/multiple/multipleGraph.html',
+            controller : 'BarGraphController'
+        })
     .when('/line', {
         templateUrl: 'com/chart/graphs/multiple/multipleGraph.html',
         controller: 'LineGraphController'
