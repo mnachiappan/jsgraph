@@ -18,7 +18,7 @@ graphApp.config(function($routeProvider){
         controller : 'SelectionController'
     })
     .when('/line', {
-        templateUrl: 'com/chart/graphs/multiple/line/line.html',
+        templateUrl: 'com/chart/graphs/multiple/line.html',
         controller: 'LineGraphController'
     })
 });
