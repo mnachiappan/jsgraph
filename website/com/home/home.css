@@ -60,3 +60,10 @@ a:hover{
 a:visited{
     color: #85144b;
 }
+
+.home #footer{
+    width: 100%;
+    text-align: center;
+    background-color: #e7e7e7;
+    padding-top: 15px;
+}
