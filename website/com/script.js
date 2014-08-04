@@ -18,7 +18,7 @@ graphApp.config(function($routeProvider){
         controller : 'SelectionController'
     })
     .when('/line', {
-        templateUrl: 'com/chart/graphs/multiple/line.html',
+        templateUrl: 'com/chart/graphs/multiple/multipleGraph.html',
         controller: 'LineGraphController'
     })
 });
@@ -37,7 +37,7 @@ graphApp.config(function($stateProvider, $urlRouterProvider){
     $stateProvider
         .state('line', {
            url: '/line',
-           templateUrl: 'com/chart/graphs/multiple/line/line.html',
+           templateUrl: 'com/chart/graphs/multiple/line/multipleGraph.html',
            controller: 'LineGraphController'
         });
 });
