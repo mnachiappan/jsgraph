@@ -3,7 +3,6 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
     var lineCanvas = multipleCanvasFactory;
 
     // template chart
-    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
     var lineChartData = lineCanvas.getTemplateData();
     var ctx = document.getElementById("canvas").getContext("2d");
     var lineChart = new Chart(ctx).Line(lineChartData, {responsive: true});
@@ -15,7 +14,7 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
     $scope.dataSize.numberOfDataSets = 2;
 
-    $scope.lineChartData;
+    $scope.chartData;
 
     $scope.formattedData;
 
@@ -46,20 +45,20 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
 
     $scope.initializeLabelAndData = (function (numberLabels, numberData) {
-        $scope.lineChartData = new LineChartData()
-        $scope.lineChartData.addNLabels(numberLabels);
+        $scope.chartData = new LineChartData()
+        $scope.chartData.addNLabels(numberLabels);
         for (var i = 0; i < numberData; i++){
             var label = "label" + i;
-            $scope.lineChartData.addEmptyDataSet(numberLabels, label);
+            $scope.chartData.addEmptyDataSet(numberLabels, label);
         }
         $scope.toNextScreen();
-        $scope.formattedData = $scope.lineChartData.flattenAll();
+        $scope.formattedData = $scope.chartData.flattenAll();
         lineCanvas.resetLineGraph($scope.formattedData, "line");
     });
 
     $scope.generateNewLineGraph = function(){
         $scope.toNextScreen();
-        $scope.formattedData = $scope.lineChartData.flattenAll();
+        $scope.formattedData = $scope.chartData.flattenAll();
         lineCanvas.resetLineGraph($scope.formattedData, "line");
     };
 
@@ -68,11 +67,11 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
     });
 
     $scope.removeLabel = function (labelIndex) {
-        $scope.lineChartData.removeLabel(labelIndex);
+        $scope.chartData.removeLabel(labelIndex);
     };
 
     $scope.generateJS = function(){
-        $scope.generatedJavascript = objectConvert.toJSON($scope.lineChartData.flattenAll());
+        $scope.generatedJavascript = objectConvert.toJSON($scope.chartData.flattenAll());
         return true;
     };
 

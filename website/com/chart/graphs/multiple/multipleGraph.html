@@ -54,7 +54,7 @@
             </div>
             <div class="col-xs-8 col-xs-offset-2">
                 <form role="form">
-                    <div class="input-group" ng-repeat="dataLabel in lineChartData.labels">
+                    <div class="input-group" ng-repeat="dataLabel in chartData.labels">
                         <input ng-model="dataLabel['label']" type="text" class="form-control" onclick="this.select()"/>
                          <span class="input-group-btn">
                             <a class="btn btn-danger" ng-click="removeLabel($index)" aria-label="Remove">X</a>
@@ -76,11 +76,11 @@
             <div class="col-md-8 col-md-offset-2" style="overflow-y: visible; overflow-x: auto;">
                 <table class="center-block">
                     <tr>
-                        <th ng-repeat="dataLabel in lineChartData.labels">
+                        <th ng-repeat="dataLabel in chartData.labels">
                             {{dataLabel['label']}}
                         </th>
                     </tr>
-                    <tr ng-repeat="dataset in lineChartData.datasets">
+                    <tr ng-repeat="dataset in chartData.datasets">
                         <td ng-repeat="elem in dataset.data">
                             <input ng-model="elem.elem" ng-change="updateData($parent.$index, $index, elem.elem)"
                                    onclick="this.select()"/>
