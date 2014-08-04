@@ -3,16 +3,16 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
     // template chart
     var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-    var lineChartData = { labels : ["label1","label2","label3","label4","label5","label6","label7"], datasets : [ { label: "My First dataset", fillColor : "rgba(220,220,220,0.2)", strokeColor : "rgba(220,220,220,1)", pointColor : "rgba(220,220,220,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(220,220,220,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] }, { label: "My Second dataset", fillColor : "rgba(151,187,205,0.2)", strokeColor : "rgba(151,187,205,1)", pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(151,187,205,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] } ] };
+    var lineChartData = { labels : ["label1","label2","label3"], datasets : [ { label: "My First dataset", fillColor : "rgba(220,220,220,0.2)", strokeColor : "rgba(220,220,220,1)", pointColor : "rgba(220,220,220,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(220,220,220,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] }, { label: "My Second dataset", fillColor : "rgba(151,187,205,0.2)", strokeColor : "rgba(151,187,205,1)", pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(151,187,205,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] } ] };
     var ctx = document.getElementById("canvas").getContext("2d");
     var lineChart = new Chart(ctx).Line(lineChartData, {responsive: true});
 
     // end of template chart
     $scope.dataSize = {};
 
-    $scope.dataSize.numberOfLabels = 2;
+    $scope.dataSize.numberOfLabels = 3;
 
-    $scope.dataSize.numberOfDataSets = 1;
+    $scope.dataSize.numberOfDataSets = 2;
 
     $scope.lineChartData;
 
