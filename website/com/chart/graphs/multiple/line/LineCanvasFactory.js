@@ -1,4 +1,4 @@
-graphApp.factory('lineCanvas', [function lineCanvasFactory () {
+graphApp.factory('multipleCanvasFactory', [function multipleCanvasFactory () {
 	var graphContainerID = "#graphContainer";
 	var graphID = "#canvas";
 	var graphContainerName = "graphContainer";
@@ -6,16 +6,19 @@ graphApp.factory('lineCanvas', [function lineCanvasFactory () {
 	var ctx;
 	var lineChart;
 
-	var lineFactory = {};
+	var multipleCanvasFactory = {};
 
-	lineFactory.resetLineGraph = function (data) {
+	multipleCanvasFactory.resetLineGraph = function (data, chartType) {
 		$(graphID).remove();
 		$(graphContainerID).append('<canvas id="canvas"></canvas>');
 		ctx = document.getElementById(graphName).getContext("2d");
-		lineChart = new Chart(ctx).Line(data, {responsive: true});
+        if(chartType === "line"){
+            lineChart = new Chart(ctx).Line(data, {responsive: true});
+        }
+
 	};
 
-	lineFactory.updateData = function (dataSetIndex, pointIndex, newValue) {
+	multipleCanvasFactory.updateData = function (dataSetIndex, pointIndex, newValue) {
 		if(!isNaN(newValue)){
 			lineChart.datasets[dataSetIndex].points[pointIndex].value = newValue;
 			lineChart.update();
@@ -24,5 +27,5 @@ graphApp.factory('lineCanvas', [function lineCanvasFactory () {
 		}
 	};
 
-	return lineFactory;
+	return multipleCanvasFactory;
 }]);

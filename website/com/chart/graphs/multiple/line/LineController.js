@@ -1,8 +1,9 @@
-graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSelector', 'lineCanvas', function ($scope, objectConvert, screenSelector, lineCanvas) {
+graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSelector', 'multipleCanvasFactory', function ($scope, objectConvert, screenSelector, multipleCanvasFactory) {
     var objectConvert = objectConvert;
 
     // template chart
-    var randomScalingFactor = function(){ return Math.round(Math.random()*100)}; var lineChartData = { labels : ["label1","label2","label3","label4","label5","label6","label7"], datasets : [ { label: "My First dataset", fillColor : "rgba(220,220,220,0.2)", strokeColor : "rgba(220,220,220,1)", pointColor : "rgba(220,220,220,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(220,220,220,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] }, { label: "My Second dataset", fillColor : "rgba(151,187,205,0.2)", strokeColor : "rgba(151,187,205,1)", pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(151,187,205,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] } ] };
+    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+    var lineChartData = { labels : ["label1","label2","label3","label4","label5","label6","label7"], datasets : [ { label: "My First dataset", fillColor : "rgba(220,220,220,0.2)", strokeColor : "rgba(220,220,220,1)", pointColor : "rgba(220,220,220,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(220,220,220,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] }, { label: "My Second dataset", fillColor : "rgba(151,187,205,0.2)", strokeColor : "rgba(151,187,205,1)", pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff", pointHighlightFill : "#fff", pointHighlightStroke : "rgba(151,187,205,1)", data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()] } ] };
     var ctx = document.getElementById("canvas").getContext("2d");
     var lineChart = new Chart(ctx).Line(lineChartData, {responsive: true});
 
@@ -18,6 +19,8 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
     $scope.formattedData;
 
     $scope.generatedJavascript;
+
+    var lineCanvas = multipleCanvasFactory;
 
     // screen controlling
 
@@ -50,13 +53,13 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
         }
         $scope.toNextScreen();
         $scope.formattedData = $scope.lineChartData.flattenAll();
-        lineCanvas.resetLineGraph($scope.formattedData);
+        lineCanvas.resetLineGraph($scope.formattedData, "line");
     });
 
     $scope.generateNewLineGraph = function(){
         $scope.toNextScreen();
         $scope.formattedData = $scope.lineChartData.flattenAll();
-        lineCanvas.resetLineGraph($scope.formattedData);
+        lineCanvas.resetLineGraph($scope.formattedData, "line");
     };
 
     $scope.updateData = (function (dataSetIndex, pointIndex, newValue) { 
