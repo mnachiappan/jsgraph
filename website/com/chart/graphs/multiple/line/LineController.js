@@ -56,7 +56,7 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
         lineCanvas.resetLineGraph($scope.formattedData, "line");
     });
 
-    $scope.generateNewLineGraph = function(){
+    $scope.generateNewGraph = function(){
         $scope.toNextScreen();
         $scope.formattedData = $scope.chartData.flattenAll();
         lineCanvas.resetLineGraph($scope.formattedData, "line");
