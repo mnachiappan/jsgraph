@@ -2,7 +2,7 @@ var RadarChartData = (function () {
     function RadarChartData() {
         this.labels = [];
         this.datasets = [];
-        this.colorGen = ColorGenerator();
+        this.colorGen = new ColorGenerator();
     }
 
     RadarChartData.prototype = new LabelData();
@@ -35,4 +35,4 @@ var RadarChartData = (function () {
     RadarChartData.prototype.lineChartDatasetRGBColor = ["fillColor", "strokeColor", "pointColor", "pointHighlightStroke"];
 
     return RadarChartData;
-})
+})();

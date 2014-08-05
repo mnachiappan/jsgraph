@@ -1,15 +1,14 @@
-graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSelector', 'multipleCanvasFactory', function ($scope, objectConvert, screenSelector, multipleCanvasFactory) {
+graphApp.controller('RadarGraphController', ['$scope', 'objectConvert', 'screenSelector', 'multipleCanvasFactory', function ($scope, objectConvert, screenSelector, multipleCanvasFactory) {
     var objectConvert = objectConvert;
-    var lineCanvas = multipleCanvasFactory;
+    var radarCanvas = multipleCanvasFactory;
 
-    // template chart
-    var lineChartData = lineCanvas.getTemplateData();
+    var radarChartData = radarCanvas.getTemplateData();
     var ctx = document.getElementById("canvas").getContext("2d");
-    var lineChart = new Chart(ctx).Line(lineChartData, {responsive: true});
+    var radarChart = new Chart(ctx).Radar(radarChartData, {responsive: true});
 
-    $scope.chartType = "Line";
+    $scope.chartType = "Radar";
 
-    // end of template chart
+
     $scope.dataSize = {};
 
     $scope.dataSize.numberOfLabels = 3;
@@ -22,14 +21,8 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
 
     $scope.generatedJavascript;
 
-
-
-    // screen controlling
-
-    //var screenSelector = screenSelector;
-
     $scope.selectedScreen = 0;
-    
+
     $scope.toNextScreen = function () {
         $scope.selectedScreen = screenSelector.toNextScreen($scope.selectedScreen);
         console.log($scope.selectedScreen);
@@ -43,43 +36,42 @@ graphApp.controller('LineGraphController', ['$scope', 'objectConvert', 'screenSe
         return screenSelector.isScreenSelected(screenName, $scope.selectedScreen);
     }
 
-    // end of screen controlling
-
-
     $scope.initializeLabelAndData = (function (numberLabels, numberData) {
-        $scope.chartData = new LineChartData();
+        $scope.chartData = new RadarChartData();
+        console.log($scope.chartData.prototype);
+        console.log($scope.chartData.addNLabels);
         $scope.chartData.addNLabels(numberLabels);
-        for (var i = 0; i < numberData; i++){
+        for (var i = 0; i <  numberData; i++){
             var label = "label" + i;
             $scope.chartData.addEmptyDataSet(numberLabels, label);
         }
         $scope.toNextScreen();
         $scope.formattedData = $scope.chartData.flattenAll();
-        lineCanvas.resetLineGraph($scope.formattedData, "line");
+        radarCanvas.resetLineGraph($scope.formattedData, "radar");
     });
 
-    $scope.generateNewGraph = function(){
+    $scope.generateNewGraph = function () {
         $scope.toNextScreen();
         $scope.formattedData = $scope.chartData.flattenAll();
-        lineCanvas.resetLineGraph($scope.formattedData, "line");
+        radarCanvas.resetLineGraph($scope.formattedData, "radar");
     };
 
-    $scope.updateData = (function (dataSetIndex, pointIndex, newValue) { 
-        lineCanvas.updateData(dataSetIndex, pointIndex, newValue, "line");
-    });
+    $scope.updateData = function (datasetIndex, pointIndex, newValue) {
+        radarCanvas.updateData(datasetIndex, pointIndex, newValue, "radar");
+    };
 
     $scope.removeLabel = function (labelIndex) {
         $scope.chartData.removeLabel(labelIndex);
     };
 
-    $scope.generateJS = function(){
+    $scope.generateJS = function () {
         $scope.generatedJavascript = objectConvert.toJSON($scope.chartData.flattenAll());
         return true;
     };
 
-    $scope.generateCode = function(){
+    $scope.generateCode = function () {
         $scope.generateJS();
         $scope.toNextScreen();
-    };
+    }
 
 }]);

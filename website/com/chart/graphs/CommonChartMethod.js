@@ -103,5 +103,6 @@
         var fn = func["fn"];
         LineChartData.prototype[fnName] = fn;
         BarChartData.prototype[fnName] = fn;
+        RadarChartData.prototype[fnName] = fn;
     }
 })();

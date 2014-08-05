@@ -25,6 +25,10 @@ graphApp.config(function ($routeProvider) {
             templateUrl: 'com/chart/graphs/multiple/multipleGraph.html',
             controller: 'LineGraphController'
         })
+        .when('/radar', {
+            templateUrl: 'com/chart/graphs/multiple/multipleGraph.html',
+            controller: 'RadarGraphController'
+        })
 });
 
 /*

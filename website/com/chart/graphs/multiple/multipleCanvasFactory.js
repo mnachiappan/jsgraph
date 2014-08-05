@@ -19,6 +19,8 @@ graphApp.factory('multipleCanvasFactory', [function multipleCanvasFactory() {
             lineChart = new Chart(ctx).Line(data, {responsive: true});
         }else if(chartType === "bar"){
             lineChart = new Chart(ctx).Bar(data, {responsive : true});
+        }else if(chartType === "radar"){
+            lineChart = new Chart(ctx).Radar(data, {responsive : true});
         }
 
     };
@@ -29,6 +31,8 @@ graphApp.factory('multipleCanvasFactory', [function multipleCanvasFactory() {
                 lineChart.datasets[dataSetIndex].points[pointIndex].value = newValue;
             }else if (chartType === "bar"){
                 lineChart.datasets[dataSetIndex].bars[pointIndex].value = newValue;
+            }else if (chartType === "radar"){
+                lineChart.datasets[dataSetIndex].points[pointIndex].value = newValue;
             }
             lineChart.update();
         } else {

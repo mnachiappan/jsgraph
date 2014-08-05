@@ -29,6 +29,7 @@ graphApp.controller('BarGraphController', ['$scope', 'objectConvert', 'screenSel
 
     $scope.initializeLabelAndData = (function (numberLabels, numberData) {
         $scope.chartData = new BarChartData();
+        console.log($scope.chartData.prototype);
         $scope.chartData.addNLabels(numberLabels);
         for (var i = 0; i < numberData; i++){
             var label = "label" + i;
