@@ -14,6 +14,11 @@ var ColorGenerator = (function(){
         return color;
     };
 
+    ColorGenerator.prototype.rgbaToString = function(color){
+        var result = "rgba(" + color.r + "," + color.g + "," + color.b + "," + color.a + ")";
+        return result;
+    };
+
     ColorGenerator.prototype.color_data = [
         //{r: 240, g: 248, b: 255}, //"aliceblue": 
         {r: 218, g: 165, b: 32}, //"goldenrod": 

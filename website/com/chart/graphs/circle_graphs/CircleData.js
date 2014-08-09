@@ -32,6 +32,14 @@ var CircleData = (function(){
         datasets.push(dataset);
     };
 
+    CircleData.prototype.getUsableData = function () {
+        var datasets = clone(this.datasets);
+        for (var i = 0; i < datasets.length; i++){
+            datasets[i].color = this.ColorGenerator.rgbaToString(datasets[i].color);
+            datasets[i].highlight = this.ColorGenerator.rgbaToString(datasets[i].highlight);
+        }
+        return datasets;
+    };
 
     return CircleData;
 })();
