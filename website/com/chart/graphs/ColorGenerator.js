@@ -12,7 +12,7 @@ var ColorGenerator = (function(){
         var color = this.color_data[this.currentColor];
         
         return color;
-    }
+    };
 
     ColorGenerator.prototype.color_data = [
         //{r: 240, g: 248, b: 255}, //"aliceblue": 
