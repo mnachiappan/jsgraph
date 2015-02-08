@@ -6,6 +6,8 @@
 
 The types of charts that can be made for now are line, bar and radar.
 
+![Chart gen preview](./preview.png)
+
 ## How to Use
 1. Navigate to [Chart Gen](http://chartgen.org).
 2. Select chart and start entering data.
